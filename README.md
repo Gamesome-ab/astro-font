@@ -51,12 +51,12 @@ The easiest way to find it is through one of the css files you saw in the previo
 
 ```css
 @font-face {
-	font-family: "Roboto Flex Variable";
-	font-style: normal;
-	font-display: swap;
-	font-weight: 100 1000;
-	src: url(./files/roboto-flex-cyrillic-wght-normal.woff2) format("woff2-variations");
-	unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+  font-family: "Roboto Flex Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 1000;
+  src: url(./files/roboto-flex-cyrillic-wght-normal.woff2) format("woff2-variations");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
 }
 ```
 
@@ -74,19 +74,19 @@ Add a configuration for the plugin. Replace `Rubik Variable` with your selected 
 
 ```javascript
 export default defineConfig({
-	integrations: [
-		astroFont({
-			families: [
-				{
-					name: "Rubik Variable",
-					imports: [
-						"@fontsource-variable/rubik/wght.css",
-						"@fontsource-variable/rubik/wght-italic.css",
-					],
-				},
-			],
-		}),
-	],
+  integrations: [
+    astroFont({
+      families: [
+        {
+          name: "Rubik Variable",
+          imports: [
+            "@fontsource-variable/rubik/wght.css",
+            "@fontsource-variable/rubik/wght-italic.css",
+          ],
+        },
+      ],
+    }),
+  ],
 });
 ```
 
@@ -102,10 +102,10 @@ Then add the imported component in the `<head>` tag. It should look something li
 
 ```html
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width" />
-	<link rel="icon" type="image/x-icon" href="/favicon.svg" />
-	<AstroFont />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <link rel="icon" type="image/x-icon" href="/favicon.svg" />
+  <AstroFont />
 </head>
 ```
 
@@ -128,28 +128,28 @@ Updated `astro.config.mjs`:
 
 ```javascript
 export default defineConfig({
-	integrations: [
-		astroFont({
-			families: [
-				{
-					name: "Rubik Variable",
-					imports: [
-						"@fontsource-variable/rubik/wght.css",
-						"@fontsource-variable/rubik/wght-italic.css",
-					],
-				},
-				{
-					name: "EB Garamond Variable",
-					type: "serif",
-					applyFontFamilyToSelector: ".font-serif",
-					imports: [
-						"@fontsource-variable/eb-garamond/wght.css",
-						"@fontsource-variable/eb-garamond/wght-italic.css",
-					],
-				},
-			],
-		}),
-	],
+  integrations: [
+    astroFont({
+      families: [
+        {
+          name: "Rubik Variable",
+          imports: [
+            "@fontsource-variable/rubik/wght.css",
+            "@fontsource-variable/rubik/wght-italic.css",
+          ],
+        },
+        {
+          name: "EB Garamond Variable",
+          type: "serif",
+          applyFontFamilyToSelector: ".font-serif",
+          imports: [
+            "@fontsource-variable/eb-garamond/wght.css",
+            "@fontsource-variable/eb-garamond/wght-italic.css",
+          ],
+        },
+      ],
+    }),
+  ],
 });
 ```
 
@@ -161,34 +161,34 @@ Let's say that we want to preload the italic variant of `EB Garamond` instead of
 
 ```javascript
 export default defineConfig({
-	integrations: [
-		astroFont({
-			families: [
-				{
-					name: "Rubik Variable",
-					imports: [
-						"@fontsource-variable/rubik/wght.css",
-						"@fontsource-variable/rubik/wght-italic.css",
-					],
-				},
-				{
-					name: "EB Garamond Variable",
-					type: "serif",
-					applyFontFamilyToSelector: ".font-serif",
-					imports: [
-						{
-							css: "@fontsource-variable/eb-garamond/wght.css",
-							preload: false,
-						},
-						{
-							css: "@fontsource-variable/eb-garamond/wght-italic.css",
-							preload: true,
-						},
-					],
-				},
-			],
-		}),
-	],
+  integrations: [
+    astroFont({
+      families: [
+        {
+          name: "Rubik Variable",
+          imports: [
+            "@fontsource-variable/rubik/wght.css",
+            "@fontsource-variable/rubik/wght-italic.css",
+          ],
+        },
+        {
+          name: "EB Garamond Variable",
+          type: "serif",
+          applyFontFamilyToSelector: ".font-serif",
+          imports: [
+            {
+              css: "@fontsource-variable/eb-garamond/wght.css",
+              preload: false,
+            },
+            {
+              css: "@fontsource-variable/eb-garamond/wght-italic.css",
+              preload: true,
+            },
+          ],
+        },
+      ],
+    }),
+  ],
 });
 ```
 
@@ -343,7 +343,7 @@ Example 1: To preload all latin fonts for all locales:
 
 ```javascript
 {
-	includeFontsMatching: ["latin"];
+  includeFontsMatching: ["latin"];
 }
 ```
 
@@ -351,7 +351,7 @@ Example 2: To preload the base latin font (not latin-ext) for all locales:
 
 ```javascript
 {
-	includeFontsMatching: ["latin(?!-ext)"];
+  includeFontsMatching: ["latin(?!-ext)"];
 }
 ```
 
@@ -359,7 +359,7 @@ Example 3: To preload all fonts for all locales:
 
 ```javascript
 {
-	includeFontsMatching: [".+"];
+  includeFontsMatching: [".+"];
 }
 ```
 
@@ -367,8 +367,8 @@ Example 4: To preload Latin fonts for all locales except those with Arabic langu
 
 ```javascript
 [
-	{ includeFontsMatching: ["latin"], forLocalesMatching: ["^(?!ar-)"] },
-	{ includeFontsMatching: ["arabic"], forLocalesMatching: ["ar-"] },
+  { includeFontsMatching: ["latin"], forLocalesMatching: ["^(?!ar-)"] },
+  { includeFontsMatching: ["arabic"], forLocalesMatching: ["ar-"] },
 ];
 ```
 
@@ -444,10 +444,10 @@ If you have enabled localised preloads in your config, you need to pass the curr
 
 ```html
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width" />
-	<link rel="icon" type="image/x-icon" href="/favicon.svg" />
-	<AstroFont locale="yourLocale" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <link rel="icon" type="image/x-icon" href="/favicon.svg" />
+  <AstroFont locale="yourLocale" />
 </head>
 ```
 
