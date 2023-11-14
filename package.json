@@ -6,7 +6,8 @@
 	"module": "./dist/astro-font.mjs",
 	"files": [
 		"dist",
-		"components"
+		"components",
+		"utils"
 	],
 	"exports": {
 		".": {

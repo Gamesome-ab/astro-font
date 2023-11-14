@@ -1,12 +1,6 @@
 import initialFontFaceDeclarations from "virtual:gamesome/astro-font-initial-css";
 import options from "virtual:gamesome/astro-font-options";
 
-if (!(options && options.families && options.families)) {
-	console.warn(
-		"@gamesome/astro-font: no, or invalid, options provided. Check your astro.config. You can silence this warning by putting an empty list in options.families if you are importing your fonts elsewhere."
-	);
-}
-
 import { createFontStack } from "@capsizecss/core";
 import * as prettier from "prettier";
 import CleanCSS from "clean-css";
@@ -14,10 +8,17 @@ import CleanCSS from "clean-css";
 // @ts-ignore
 import { fontFamilyToCamelCase as toCC } from "@capsizecss/metrics";
 
-import type { ParsedFallbackFont, ParsedFontFamily } from "../types";
 import { createBoldFallbackFontFace } from "./createBoldFallbackFontFace";
-import { fontFamilyFromFamilyName } from "../importExportNames";
-import { quoteIfNeeded, updatePropsInFontFace } from "../css-utils";
+import { fontFamilyFromFamilyName } from "../utils/importExportNames";
+import { quoteIfNeeded, updatePropsInFontFace } from "../utils/css-utils";
+
+import type { ParsedFallbackFont, ParsedFontFamily } from "../dist/types/types";
+
+if (!(options && options.families && options.families)) {
+	console.warn(
+		"@gamesome/astro-font: no, or invalid, options provided. Check your astro.config. You can silence this warning by putting an empty list in options.families if you are importing your fonts elsewhere."
+	);
+}
 
 export const getCssAndPreloads = async (
 	locale?: string

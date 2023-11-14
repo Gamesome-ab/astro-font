@@ -1,4 +1,4 @@
-import { styleNameFromCssImport } from "./importExportNames";
+import { styleNameFromCssImport } from "./utils/importExportNames";
 
 import type {
 	ParsedFallbackFont,

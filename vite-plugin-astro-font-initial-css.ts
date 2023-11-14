@@ -1,7 +1,7 @@
 import type { Plugin } from "vite";
 import type { AstroFontOptions } from "./index";
 import { parsedFamilies } from "./normaliseOptions";
-import { fontFamilyFromFamilyName } from "./importExportNames";
+import { fontFamilyFromFamilyName } from "./utils/importExportNames";
 
 /**
  * creates the initial css with font-face for the fonts, using fontsource.

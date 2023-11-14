@@ -1,5 +1,8 @@
 import { describe, it, assert } from "vitest";
-import { getRelevantFontFaceBlok, updatePropInFontFace } from "../css-utils";
+import {
+	getRelevantFontFaceBlok,
+	updatePropInFontFace,
+} from "../utils/css-utils";
 
 const removeWhitespace = (str: string) => {
 	return str.replace(/\s/g, "");
