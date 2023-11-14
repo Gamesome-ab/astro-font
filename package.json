@@ -1,6 +1,6 @@
 {
 	"name": "@gamesome/astro-font",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "Host fonts locally in your Astro project. Set up custom preloaded fonts and fallback fonts to reduce CLS. The Astro variant of https://www.npmjs.com/package/@next/font",
 	"main": "./dist/astro-font.js",
 	"module": "./dist/astro-font.mjs",
