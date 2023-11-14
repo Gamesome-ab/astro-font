@@ -2,3 +2,4 @@
 node_modules
 dist
 gamesome-astro-font-*.tgz
+yarn-error.log

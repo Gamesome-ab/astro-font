@@ -66,5 +66,8 @@
 	"bugs": {
 		"url": "https://github.com/Gamesome-ab/astro-font/issues"
 	},
-	"homepage": "https://github.com/Gamesome-ab/astro-font#readme"
+	"homepage": "https://github.com/Gamesome-ab/astro-font#readme",
+	"publishConfig": {
+		"access": "public"
+	}
 }
