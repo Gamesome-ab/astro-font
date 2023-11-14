@@ -1,0 +1,22 @@
+{
+  "extends": "astro/tsconfigs/base",
+  "include": ["./*.astro", "./**/*.ts"],
+  "exclude": ["node_modules/*", "./vite*.ts", "dist", "__test__/*"],
+  "types": [
+    "vitest",
+    "vite/client",
+    "vue/ref-macros",
+    "vite-plugin-pages/client",
+    "vite-plugin-vue-layouts/client",
+    "vite-plugin-pwa/client",
+    "unplugin-vue-macros/macros-global"
+  ],
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ESNext",
+    "strict": false,
+    "baseUrl": ".",
+    "jsx": "preserve",
+    "moduleResolution": "Bundler"
+  },
+}

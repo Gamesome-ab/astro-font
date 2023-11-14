@@ -1,0 +1,19 @@
+{
+	"editor.formatOnSave": true,
+	"prettier.documentSelectors": ["**/*.astro"],
+	"[astro]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+	"editor.indentSize": "tabSize",
+	"editor.tabSize": 2,
+	"tailwindCSS.classAttributes": [
+		"class",
+		"className",
+		"ngClass",
+		"class:list"
+	],
+	"tailwindCSS.experimental.classRegex": [
+		["[cC]ls\\s*=\\s*{([^}]+)}", "\"([^\"]*)\""]
+	],
+	"typescript.tsdk": "node_modules/typescript/lib"
+}

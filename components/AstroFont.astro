@@ -1,0 +1,27 @@
+---
+import { getCssAndPreloads } from "./frontmatter";
+
+interface Props {
+  locale?: string;
+}
+
+const {locale} = Astro.props;
+
+const { css, preloads } = await getCssAndPreloads(locale);
+---
+
+<meta title="Gamesome font title" />
+{
+  preloads.map(p => {
+    return (
+      <link
+        href={p}
+        rel=preload
+        as=font
+        type=font/woff2
+        crossorigin="anonymous"
+      >
+    )
+  })
+}
+<style type="text/css" set:html={css} is:inline />
