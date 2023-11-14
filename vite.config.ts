@@ -7,6 +7,7 @@ const name = "astro-font";
 export default defineConfig(() => {
 	return {
 		build: {
+			emptyOutDir: true,
 			lib: {
 				entry: path.resolve(__dirname, "index.ts"),
 				name: "astroFont",

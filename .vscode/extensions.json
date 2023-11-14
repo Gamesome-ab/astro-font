@@ -1,9 +1,6 @@
 {
   "recommendations": [
     "astro-build.astro-vscode",
-    "bradlc.vscode-tailwindcss",
-    "vue.volar",
-    "gruntfuggly.todo-tree"
   ],
   "unwantedRecommendations": []
 }
