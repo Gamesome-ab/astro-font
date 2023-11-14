@@ -22,13 +22,12 @@ export function vitePluginAstroFontInitialCss(
 		},
 		async load(id: string) {
 			if (id === resolvedVirtualModuleId) {
-				const optionsWithDefaults = {
-					families: parsedFamilies(options.families),
-				};
+				const families = parsedFamilies(options.families);
+
 				const importStatements: string[] = [];
 				const exportMap: { exportKey: string; importKeys: string[] }[] = [];
 
-				for (const f of optionsWithDefaults.families) {
+				for (const f of families) {
 					const expKey = fontFamilyFromFamilyName(f.name);
 					const importKeys = [];
 					for (const style of f.imports) {

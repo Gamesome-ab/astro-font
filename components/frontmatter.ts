@@ -2,7 +2,6 @@ import initialFontFaceDeclarations from "virtual:gamesome/astro-font-initial-css
 import options from "virtual:gamesome/astro-font-options";
 
 import { createFontStack } from "@capsizecss/core";
-import * as prettier from "prettier";
 import CleanCSS from "clean-css";
 
 // @ts-ignore
@@ -208,9 +207,9 @@ export const getCssAndPreloads = async (
 		`;
 
 	return {
-		css: options.prettefyOutput
-			? await prettier.format(css, { parser: "css", printWidth: 400 })
-			: new CleanCSS({}).minify(css).styles,
+		css: new CleanCSS({
+			format: options.prettifyOutput ? "beautify" : false,
+		}).minify(css).styles,
 		preloads: allPreloads,
 	};
 };

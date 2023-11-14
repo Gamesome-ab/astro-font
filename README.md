@@ -195,6 +195,7 @@ export default defineConfig({
 ## Configuration
 
 Here we list all the available configuration options for `astro-font`. The root of the config object contains:
+
 - `families` - takes an array of [FontFamily](#fontfamily) objects
 - `prettifyOutput` - takes a boolean. If set to true, we will prettify the output of the css files. This is useful for debugging, but will increase the size of the files. Default is false.
 
@@ -434,8 +435,10 @@ theme: {
 ```
 
 ## The AstroFont component
+
 The AstroFont component takes the following props:
- - locale
+
+- locale
 
 If you have enabled localised preloads in your config, you need to pass the current locale to the AstroFont component. Compared to the example in [Getting started - Step 6](#6-add-the-font-loader-to-your-markup), your head tag should look something more like this:
 
@@ -444,7 +447,7 @@ If you have enabled localised preloads in your config, you need to pass the curr
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width" />
 	<link rel="icon" type="image/x-icon" href="/favicon.svg" />
-	<AstroFont locale={yourLocale} />
+	<AstroFont locale="yourLocale" />
 </head>
 ```
 

@@ -154,7 +154,7 @@ export interface AstroFontOptions {
 	 *
 	 * Defaults to false.
 	 */
-	prettefyOutput?: boolean;
+	prettifyOutput?: boolean;
 }
 
 export default function astroFont(options: AstroFontOptions): AstroIntegration {

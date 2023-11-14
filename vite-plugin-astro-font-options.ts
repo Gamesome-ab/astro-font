@@ -16,6 +16,7 @@ export function vitePluginAstroFontOptions(options: AstroFontOptions): Plugin {
 		async load(id: string) {
 			if (id === resolvedVirtualModuleId) {
 				const optionsWithDefaults = {
+					...options,
 					families: parsedFamilies(options.families),
 				};
 
