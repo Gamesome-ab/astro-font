@@ -10,7 +10,6 @@ const {locale} = Astro.props;
 const { css, preloads } = await getCssAndPreloads(locale);
 ---
 
-<meta title="Gamesome font title" />
 {
   preloads.map(p => {
     return (
