@@ -31,7 +31,7 @@
 		"prepublishOnly": "yarn build"
 	},
 	"peerDependencies": {
-		"astro": "^3.0.0"
+		"astro": "^3.0.0 || ^4.0.0"
 	},
 	"dependencies": {
 		"@capsizecss/core": "3.1.1",
