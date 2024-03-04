@@ -54,12 +54,17 @@
 		"url": "https://github.com/Gamesome-ab/astro-font.git"
 	},
 	"keywords": [
-		"astro-integration",
 		"astro",
+		"astro-component",
+		"astro-integration",
 		"font",
 		"i18n",
 		"interinternationalisation",
-		"localisation"
+		"localisation",
+		"optimisation",
+		"optimization",
+		"performance",
+		"withastro"
 	],
 	"author": "Johan Svensson",
 	"license": "MIT",
