@@ -54,7 +54,7 @@ export const updatePropsInFontFace = (
 	return newFontFaceDeclaration;
 };
 
-// Borrowed from here: https://github.com/seek-oss/capsize/blob/ac26103410a053428c366c296811976f0746a426/packages/core/src/createFontStack.ts#L64C9-L64C9
+// Borrowed from here: https://github.com/seek-oss/capsize/blob/85a7f2954616d7b3e75fc39846e4d85fd562948f/packages/core/src/createFontStack.ts#L133C1-L154C1
 export const quoteIfNeeded = (name: string) => {
 	const quotedMatch = name.match(/^['"](?<name>.*)['"]$/);
 	if (quotedMatch && quotedMatch.groups?.name) {

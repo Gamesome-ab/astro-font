@@ -2,7 +2,8 @@ import { describe, it, assert } from "vitest";
 import {
 	getRelevantFontFaceBlok,
 	updatePropInFontFace,
-} from "../utils/css-utils";
+	quoteIfNeeded,
+} from "../utils/cssUtils";
 
 const removeWhitespace = (str: string) => {
 	return str.replace(/\s/g, "");
@@ -50,7 +51,7 @@ describe("getRelevantFontFaceBlok", () => {
 	});
 });
 
-describe("_updatePropInFontFace", () => {
+describe("updatePropInFontFace", () => {
 	const fontFaceDeclaration = `
   @font-face {
     font-family: "Rubik Fallback: Tahoma";
@@ -95,5 +96,48 @@ describe("_updatePropInFontFace", () => {
     `;
 		const result = updatePropInFontFace(fontFaceDeclaration, prop, value);
 		assert.equal(removeWhitespace(result), removeWhitespace(expected));
+	});
+});
+
+describe("quoteIfNeeded", () => {
+	it("should return the name as-is if it contains only letters, numbers, hyphens, or underscores", () => {
+		const name = "Rubik-Fallback";
+		const result = quoteIfNeeded(name);
+		assert.equal(result, name);
+	});
+
+	it("should wrap the name in double quotes if it contains spaces", () => {
+		const name = "Rubik Fallback";
+		const expected = `"Rubik Fallback"`;
+		const result = quoteIfNeeded(name);
+		assert.equal(result, expected);
+	});
+
+	it("should wrap the name in double quotes if it contains special characters", () => {
+		const name = "Rubik@Fallback";
+		const expected = `"Rubik@Fallback"`;
+		const result = quoteIfNeeded(name);
+		assert.equal(result, expected);
+	});
+
+	it("should handle names already wrapped in single quotes", () => {
+		const name = `'Rubik Fallback'`;
+		const expected = `"Rubik Fallback"`;
+		const result = quoteIfNeeded(name);
+		assert.equal(result, expected);
+	});
+
+	it("should handle names already wrapped in double quotes", () => {
+		const name = `"Rubik Fallback"`;
+		const expected = `"Rubik Fallback"`;
+		const result = quoteIfNeeded(name);
+		assert.equal(result, expected);
+	});
+
+	it("should handle long names already wrapped in double quotes", () => {
+		const name = `"DM Sans Variable"`;
+		const expected = `"DM Sans Variable"`;
+		const result = quoteIfNeeded(name);
+		assert.equal(result, expected);
 	});
 });
