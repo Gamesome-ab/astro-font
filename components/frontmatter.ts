@@ -9,19 +9,35 @@ import { fontFamilyToCamelCase as toCC } from "@capsizecss/metrics";
 
 import { createBoldFallbackFontFace } from "./createBoldFallbackFontFace";
 import { fontFamilyFromFamilyName } from "../utils/importExportNames";
-import { quoteIfNeeded, updatePropsInFontFace } from "../utils/css-utils";
+import { quoteIfNeeded, updatePropsInFontFace } from "../utils/cssUtils";
 
 import type { ParsedFallbackFont, ParsedFontFamily } from "../dist/types/types";
-
-if (!(options && options.families && options.families)) {
-	console.warn(
-		"@gamesome/astro-font: no, or invalid, options provided. Check your astro.config. You can silence this warning by putting an empty list in options.families if you are importing your fonts elsewhere."
-	);
-}
 
 export const getCssAndPreloads = async (
 	locale?: string
 ): Promise<{ css: string; preloads: string[] }> => {
+	if (
+		!(
+			options &&
+			options.families &&
+			options.families.length &&
+			(options.families as Array<any>).every(
+				(f) =>
+					!!f &&
+					typeof f === "object" &&
+					f.name &&
+					f.imports &&
+					f.imports.length &&
+					f.imports.every((i) => !!i)
+			)
+		)
+	) {
+		// NOTE: this will likely never happen, as long as the options parser (normaliseOptions.ts) throws.
+		throw new Error(
+			"@gamesome/astro-font: No options or options.families option provided. Check your astro.config!"
+		);
+	}
+
 	const allFontFamilyDeclarations: { selector: string; fontFamily: string }[] =
 		[];
 	const allFallbackFontFaceDeclarations: string[] = [];
@@ -34,6 +50,7 @@ export const getCssAndPreloads = async (
 					initialFontFaceDeclarations[fontFamilyFromFamilyName(family.name)][
 						imp.name
 					];
+
 				const urlBlocks = initialFontFaceDeclaration.match(/url\((.*?)\)/g);
 				const urls = urlBlocks.map((block) =>
 					block.replace(/url\((.*?)\)/, "$1")
@@ -174,7 +191,7 @@ export const getCssAndPreloads = async (
 
 		if (family.applyFontFamilyToSelector) {
 			const ff = fontFamilyDeclarations.replace(
-				family.staticFontName,
+				quoteIfNeeded(family.staticFontName),
 				quoteIfNeeded(family.name)
 			);
 			// We add !important to the font-family declaration to make sure it overrides any other font-family declarations. For example from tailwind.

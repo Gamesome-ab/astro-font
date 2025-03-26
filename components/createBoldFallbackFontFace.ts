@@ -2,7 +2,7 @@ import {
 	getRelevantFontFaceBlok,
 	updatePropInFontFace,
 	updatePropsInFontFace,
-} from "../utils/css-utils";
+} from "../utils/cssUtils";
 import type { ParsedFallbackFont } from "types";
 
 export const createBoldFallbackFontFace = (
