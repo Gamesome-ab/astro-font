@@ -1,11 +1,3 @@
-export { gamesomeFontFaceFormat, buildFontFaceDeclarations } from "./format";
-export { gamesomeFontFaceAction } from "./action";
+export { gamesomeFontFaceFormat } from "./format";
 export { extractFontFamiliesFromTokens } from "./tokenHelpers";
-
-// Re-export core types for convenience
-export type {
-	FontFamily,
-	FontOptions,
-	FontFaceDeclarations,
-	GenerateCssOutput,
-} from "@gamesome/core-font";
+export type { PreloadManifestEntry } from "./types";

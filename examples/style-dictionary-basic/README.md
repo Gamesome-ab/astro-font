@@ -15,4 +15,4 @@ pnpm install
 pnpm dev
 ```
 
-This runs `build-tokens.mjs` (generating CSS + copying font files) then starts the Vite dev server.
+This runs `build-tokens.mjs` (generating CSS with font-face declarations) then starts the Vite dev server.

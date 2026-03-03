@@ -2,14 +2,20 @@
 	"name": "@gamesome/style-dictionary-font",
 	"version": "0.0.1",
 	"description": "Style Dictionary format and action for generating optimized @font-face CSS with fallback scaling",
-	"main": "./dist/style-dictionary-font.js",
-	"module": "./dist/style-dictionary-font.mjs",
+	"type": "module",
+	"main": "./dist/style-dictionary-font.cjs.js",
+	"module": "./dist/style-dictionary-font.es.js",
 	"types": "./dist/types/index.d.ts",
 	"exports": {
 		".": {
 			"types": "./dist/types/index.d.ts",
-			"import": "./dist/style-dictionary-font.mjs",
-			"require": "./dist/style-dictionary-font.js"
+			"import": "./dist/style-dictionary-font.es.js",
+			"require": "./dist/style-dictionary-font.cjs.js"
+		},
+		"./font-preload-vite-plugin": {
+			"types": "./dist/types/fontPreloadPlugin.d.ts",
+			"import": "./dist/font-preload-plugin.es.js",
+			"require": "./dist/font-preload-plugin.cjs.js"
 		}
 	},
 	"files": [
@@ -27,6 +33,7 @@
 		"style-dictionary": "^4.0.0"
 	},
 	"devDependencies": {
+		"@types/node": "^24.5.2",
 		"style-dictionary": "^4.0.0",
 		"typescript": "5.2.2",
 		"vite": "4.5.0",

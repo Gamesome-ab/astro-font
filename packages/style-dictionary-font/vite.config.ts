@@ -1,23 +1,30 @@
-import { defineConfig, Plugin } from "vite";
+import { defineConfig, type LibraryFormats, Plugin } from "vite";
 import path from "path";
 import dts from "vite-plugin-dts";
-
-const name = "style-dictionary-font";
 
 export default defineConfig(() => {
 	return {
 		build: {
 			emptyOutDir: true,
 			lib: {
-				entry: path.resolve(__dirname, "src/index.ts"),
-				name: "styleDictionaryFont",
-				fileName: (format) => (format === "es" ? `${name}.mjs` : `${name}.js`),
+				entry: {
+					"style-dictionary-font": path.resolve(__dirname, "src/index.ts"),
+					"font-preload-plugin": path.resolve(__dirname, "src/fontPreloadPlugin.ts"),
+				},
+				formats: ["es", "cjs"] as LibraryFormats[],
 			},
 			rollupOptions: {
 				external: [
 					"@gamesome/core-font",
 					"style-dictionary",
+					"fs",
+					"path",
+					"module",
+					"vite",
 				],
+				output: {
+					entryFileNames: "[name].[format].js",
+				},
 			},
 		},
 		plugins: [
