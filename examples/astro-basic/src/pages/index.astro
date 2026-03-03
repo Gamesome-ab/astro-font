@@ -1,0 +1,27 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Font Fallback Showcase — Astro">
+	<div class="font-showcase">
+		<h1>Font Fallback Showcase</h1>
+		<p class="subtitle">
+			Explore how <code>@gamesome/astro-font</code> generates optimized
+			fallback fonts to reduce CLS during font loading.
+		</p>
+		<div class="font-links">
+			<a href="/rubik" class="font-link">
+				<span class="font-link-name">Rubik Variable</span>
+				<span class="font-link-type">sans-serif</span>
+			</a>
+			<a href="/sora" class="font-link">
+				<span class="font-link-name">Sora Variable</span>
+				<span class="font-link-type">sans-serif</span>
+			</a>
+			<a href="/lora" class="font-link">
+				<span class="font-link-name">Lora Variable</span>
+				<span class="font-link-type">serif</span>
+			</a>
+		</div>
+	</div>
+</Layout>

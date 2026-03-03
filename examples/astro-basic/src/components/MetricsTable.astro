@@ -1,0 +1,91 @@
+---
+interface Props {
+	primaryFont: string;
+	primaryLabel: string;
+	fallbackFonts: string[];
+}
+
+const { primaryFont, primaryLabel, fallbackFonts } = Astro.props;
+---
+
+<div class="metrics-table" id="metrics-table">
+	<h3>Measured font metrics (48px)</h3>
+	<table>
+		<thead>
+			<tr>
+				<th>Font</th>
+				<th>Ascent</th>
+				<th>Descent</th>
+				<th>Line Height</th>
+				<th>Cap Height</th>
+			</tr>
+		</thead>
+		<tbody id="metrics-body"></tbody>
+	</table>
+</div>
+
+<script
+	define:vars={{ primaryFont, primaryLabel, fallbackFonts }}
+>
+	function measureMetrics() {
+		const tbody = document.getElementById("metrics-body");
+		if (!tbody) return;
+
+		const canvas = document.createElement("canvas");
+		const ctx = canvas.getContext("2d");
+		if (!ctx) return;
+
+		function measure(fontFamily, label) {
+			ctx.font = `48px ${fontFamily}`;
+			const tm = ctx.measureText("Hpg");
+			return {
+				label,
+				ascent: tm.actualBoundingBoxAscent,
+				descent: tm.actualBoundingBoxDescent,
+				lineHeight:
+					tm.actualBoundingBoxAscent + tm.actualBoundingBoxDescent,
+				capHeight: ctx.measureText("H").actualBoundingBoxAscent,
+			};
+		}
+
+		const primary = measure(primaryFont, primaryLabel);
+		const metrics = [primary];
+
+		for (const fallback of fallbackFonts) {
+			metrics.push(
+				measure(
+					`"${primaryLabel} Fallback: ${fallback}"`,
+					`Fallback: ${fallback}`
+				)
+			);
+		}
+
+		function diffBadge(value, reference) {
+			const diff = ((value - reference) / reference) * 100;
+			const absDiff = Math.abs(diff);
+			const color =
+				absDiff < 2
+					? "#27ae60"
+					: absDiff < 5
+						? "#f39c12"
+						: "#e74c3c";
+			return `<span style="margin-left: 0.4em; font-size: 0.7rem; color: ${color}; font-family: monospace;">${diff >= 0 ? "+" : ""}${diff.toFixed(1)}%</span>`;
+		}
+
+		tbody.innerHTML = metrics
+			.map(
+				(m, i) => `
+			<tr>
+				<td class="metric-name">${m.label}</td>
+				<td>${m.ascent.toFixed(1)}px${i > 0 ? diffBadge(m.ascent, primary.ascent) : ""}</td>
+				<td>${m.descent.toFixed(1)}px${i > 0 ? diffBadge(m.descent, primary.descent) : ""}</td>
+				<td>${m.lineHeight.toFixed(1)}px${i > 0 ? diffBadge(m.lineHeight, primary.lineHeight) : ""}</td>
+				<td>${m.capHeight.toFixed(1)}px${i > 0 ? diffBadge(m.capHeight, primary.capHeight) : ""}</td>
+			</tr>
+		`
+			)
+			.join("");
+	}
+
+	document.fonts.ready.then(measureMetrics);
+</script>

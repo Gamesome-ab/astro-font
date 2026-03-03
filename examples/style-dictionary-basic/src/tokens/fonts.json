@@ -1,0 +1,44 @@
+{
+	"font": {
+		"family": {
+			"primary": {
+				"value": "Rubik Variable",
+				"type": "fontFamily",
+				"$extensions": {
+					"gamesome.font": {
+						"fontType": "sans-serif",
+						"imports": [
+							"@fontsource-variable/rubik/wght.css"
+						]
+					}
+				}
+			},
+			"secondary": {
+				"value": "Sora Variable",
+				"type": "fontFamily",
+				"$extensions": {
+					"gamesome.font": {
+						"fontType": "sans-serif",
+						"imports": [
+							"@fontsource-variable/sora/wght.css"
+						],
+						"applyFontFamilyToSelector": ".font-sora"
+					}
+				}
+			},
+			"tertiary": {
+				"value": "Lora Variable",
+				"type": "fontFamily",
+				"$extensions": {
+					"gamesome.font": {
+						"fontType": "serif",
+						"imports": [
+							"@fontsource-variable/lora/wght.css"
+						],
+						"applyFontFamilyToSelector": ".font-lora"
+					}
+				}
+			}
+		}
+	}
+}

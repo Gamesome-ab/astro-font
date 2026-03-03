@@ -1,0 +1,48 @@
+{
+	"name": "@gamesome/core-font",
+	"version": "0.0.1",
+	"description": "Core font optimization logic for generating @font-face CSS with fallback scaling",
+	"main": "./dist/core-font.js",
+	"module": "./dist/core-font.mjs",
+	"types": "./dist/types/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/types/index.d.ts",
+			"import": "./dist/core-font.mjs",
+			"require": "./dist/core-font.js"
+		}
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"dev": "vite build --watch",
+		"build": "vite build",
+		"test": "vitest run"
+	},
+	"dependencies": {
+		"@capsizecss/core": "4.1.3",
+		"@capsizecss/metrics": "3.6.2",
+		"clean-css": "5.3.2"
+	},
+	"devDependencies": {
+		"@types/clean-css": "4.2.10",
+		"typescript": "5.2.2",
+		"vite": "4.5.0",
+		"vite-plugin-dts": "3.6.3",
+		"vitest": "0.34.6"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Gamesome-ab/astro-font.git"
+	},
+	"bugs": {
+		"url": "https://github.com/Gamesome-ab/astro-font/issues"
+	},
+	"homepage": "https://github.com/Gamesome-ab/astro-font#readme",
+	"author": "Johan Svensson",
+	"license": "MIT",
+	"publishConfig": {
+		"access": "public"
+	}
+}

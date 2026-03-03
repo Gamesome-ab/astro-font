@@ -1,0 +1,342 @@
+/* Font Showcase Styles - shared between example apps */
+
+/* Navigation */
+.font-nav {
+	max-width: 900px;
+	margin: 0 auto;
+	padding: 1rem 2rem 0;
+	display: flex;
+	gap: 0.5rem;
+	font-family: system-ui, sans-serif;
+}
+
+.font-nav a,
+.font-nav button {
+	padding: 0.4rem 1rem;
+	border-radius: 6px;
+	text-decoration: none;
+	font-size: 0.85rem;
+	color: #555;
+	background: #f0f0f0;
+	border: 1px solid #e0e0e0;
+	cursor: pointer;
+	font-family: system-ui, sans-serif;
+}
+
+.font-nav a:hover,
+.font-nav button:hover {
+	background: #e4e4e4;
+}
+
+.font-nav a.active,
+.font-nav button.active {
+	background: #333;
+	color: #fff;
+	border-color: #333;
+}
+
+/* Landing page font links */
+.font-links {
+	display: flex;
+	gap: 1rem;
+	margin-top: 1.5rem;
+}
+
+.font-link {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	padding: 1.25rem;
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	text-decoration: none;
+	color: inherit;
+	flex: 1;
+	font-family: system-ui, sans-serif;
+}
+
+.font-link:hover {
+	background: #fafafa;
+	border-color: #ccc;
+}
+
+.font-link-name {
+	font-weight: 600;
+	font-size: 1.1rem;
+}
+
+.font-link-type {
+	font-size: 0.8rem;
+	color: #888;
+}
+
+.font-showcase {
+	max-width: 900px;
+	margin: 0 auto;
+	padding: 2rem;
+}
+
+/* Generated font stack section — inherits from the html rule */
+.font-showcase .generated-stack .sample {
+	font-size: 2rem;
+	line-height: 1.3;
+	margin-bottom: 0.5rem;
+}
+
+.font-showcase h1 {
+	font-size: 1.75rem;
+	margin-bottom: 0.5rem;
+	font-family: system-ui, sans-serif;
+}
+
+.font-showcase h2 {
+	font-family: system-ui, sans-serif;
+}
+
+.font-showcase .subtitle {
+	color: #666;
+	margin-bottom: 2rem;
+	font-family: system-ui, sans-serif;
+}
+
+.font-showcase .details {
+	font-size: 0.75rem;
+	color: #999;
+	font-family: monospace;
+}
+
+/* Comparison panel: two columns side by side */
+.font-comparison {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 1.5rem;
+	margin-bottom: 2rem;
+}
+
+.font-panel {
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	padding: 1.25rem;
+	background: #fafafa;
+}
+
+.font-panel h3 {
+	font-size: 0.8rem;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: #888;
+	margin: 0 0 0.75rem;
+	font-family: system-ui, sans-serif;
+}
+
+.font-panel .sample {
+	font-size: 2rem;
+	line-height: 1.3;
+	margin-bottom: 0.5rem;
+}
+
+.font-panel .details {
+	font-size: 0.75rem;
+	color: #999;
+	font-family: monospace;
+}
+
+/* Ruler overlay for comparing metrics */
+.ruler-container {
+	position: relative;
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	padding: 1.25rem;
+	margin-bottom: 2rem;
+	background: #fff;
+	overflow: hidden;
+}
+
+.ruler-container h3 {
+	font-size: 0.8rem;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: #888;
+	margin: 0 0 1rem;
+	font-family: system-ui, sans-serif;
+}
+
+.ruler-line {
+	position: relative;
+	margin-bottom: 0.75rem;
+}
+
+.ruler-line .text {
+	font-size: 3rem;
+	line-height: 1;
+	white-space: nowrap;
+	position: relative;
+	z-index: 1;
+}
+
+.ruler-line .label {
+	position: absolute;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 0.65rem;
+	color: #999;
+	font-family: monospace;
+	background: rgba(255, 255, 255, 0.85);
+	padding: 0 4px;
+	z-index: 2;
+}
+
+/* Baseline guide lines */
+.ruler-guides {
+	position: relative;
+	height: 120px;
+	margin-bottom: 2rem;
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	background: #fff;
+	overflow: hidden;
+}
+
+.ruler-guides .guide-line {
+	position: absolute;
+	left: 0;
+	right: 0;
+	height: 1px;
+	pointer-events: none;
+}
+
+.ruler-guides .guide-line.ascent {
+	background: #e74c3c;
+	opacity: 0.5;
+}
+
+.ruler-guides .guide-line.baseline {
+	background: #2c3e50;
+}
+
+.ruler-guides .guide-line.descent {
+	background: #3498db;
+	opacity: 0.5;
+}
+
+.ruler-guides .guide-label {
+	position: absolute;
+	right: 8px;
+	font-size: 0.6rem;
+	font-family: monospace;
+	transform: translateY(-50%);
+	padding: 0 2px;
+	background: rgba(255, 255, 255, 0.9);
+}
+
+.ruler-guides .guide-label.ascent {
+	color: #e74c3c;
+}
+
+.ruler-guides .guide-label.baseline {
+	color: #2c3e50;
+}
+
+.ruler-guides .guide-label.descent {
+	color: #3498db;
+}
+
+.ruler-guides .overlay-text {
+	position: absolute;
+	left: 12px;
+	font-size: 4rem;
+	line-height: 1;
+	white-space: nowrap;
+}
+
+/* Width comparison bars */
+.width-comparison {
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	padding: 1.25rem;
+	margin-bottom: 2rem;
+	background: #fff;
+}
+
+.width-comparison h3 {
+	font-size: 0.8rem;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: #888;
+	margin: 0 0 1rem;
+	font-family: system-ui, sans-serif;
+}
+
+.width-bar {
+	margin-bottom: 0.75rem;
+}
+
+.width-bar .bar-label {
+	font-size: 0.7rem;
+	color: #666;
+	font-family: monospace;
+	margin-bottom: 2px;
+}
+
+.width-bar .bar {
+	height: 6px;
+	border-radius: 3px;
+	transition: width 0.3s ease;
+}
+
+.width-bar .bar.primary {
+	background: #3498db;
+}
+
+.width-bar .bar.fallback {
+	background: #e74c3c;
+	opacity: 0.6;
+}
+
+/* Metrics table */
+.metrics-table {
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	overflow: hidden;
+	margin-bottom: 2rem;
+}
+
+.metrics-table h3 {
+	font-size: 0.8rem;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: #888;
+	margin: 0;
+	padding: 1rem 1.25rem 0.75rem;
+	font-family: system-ui, sans-serif;
+	background: #fafafa;
+}
+
+.metrics-table table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 0.8rem;
+}
+
+.metrics-table th,
+.metrics-table td {
+	padding: 0.5rem 1.25rem;
+	text-align: left;
+	border-top: 1px solid #eee;
+}
+
+.metrics-table th {
+	font-weight: 600;
+	background: #fafafa;
+	font-family: system-ui, sans-serif;
+}
+
+.metrics-table td {
+	font-family: monospace;
+}
+
+.metrics-table td.metric-name {
+	font-family: system-ui, sans-serif;
+	color: #666;
+}

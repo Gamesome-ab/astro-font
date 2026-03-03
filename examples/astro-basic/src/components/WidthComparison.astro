@@ -1,0 +1,71 @@
+---
+interface Props {
+	primaryFont: string;
+	primaryLabel: string;
+	fallbackFonts: string[];
+	sampleText: string;
+}
+
+const { primaryFont, primaryLabel, fallbackFonts, sampleText } = Astro.props;
+---
+
+<div class="width-comparison" id="width-comparison">
+	<h3>Text width comparison</h3>
+	<p style="font-size: 0.8rem; color: #888; margin: 0 0 1rem;">
+		Bars show measured text width of "{sampleText.slice(0, 30)}{sampleText.length > 30 ? "…" : ""}" at 16px.
+	</p>
+	<div id="width-bars"></div>
+</div>
+
+<script
+	define:vars={{ primaryFont, primaryLabel, fallbackFonts, sampleText }}
+>
+	function measureWidths() {
+		const container = document.getElementById("width-bars");
+		if (!container) return;
+
+		const el = document.createElement("span");
+		el.style.position = "absolute";
+		el.style.visibility = "hidden";
+		el.style.whiteSpace = "nowrap";
+		el.style.fontSize = "16px";
+		el.textContent = sampleText;
+		document.body.appendChild(el);
+
+		const measurements = [];
+
+		el.style.fontFamily = primaryFont;
+		measurements.push({
+			label: primaryLabel,
+			width: el.getBoundingClientRect().width,
+			isPrimary: true,
+		});
+
+		for (const fallback of fallbackFonts) {
+			el.style.fontFamily = `"${primaryLabel} Fallback: ${fallback}"`;
+			measurements.push({
+				label: `Fallback: ${fallback}`,
+				width: el.getBoundingClientRect().width,
+				isPrimary: false,
+			});
+		}
+
+		document.body.removeChild(el);
+
+		const maxWidth = Math.max(...measurements.map((m) => m.width));
+
+		container.innerHTML = measurements
+			.map(
+				(m) => `
+			<div class="width-bar">
+				<div class="bar-label">${m.label} — ${m.width.toFixed(1)}px</div>
+				<div class="bar ${m.isPrimary ? "primary" : "fallback"}" style="width: ${(m.width / maxWidth) * 100}%"></div>
+			</div>
+		`
+			)
+			.join("");
+	}
+
+	// Wait for fonts to load before measuring
+	document.fonts.ready.then(measureWidths);
+</script>
