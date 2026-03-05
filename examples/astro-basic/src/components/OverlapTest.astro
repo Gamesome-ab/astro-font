@@ -1,0 +1,40 @@
+---
+interface Props {
+	primaryFont: string;
+	primaryLabel: string;
+	fallbackFonts: string[];
+	sampleText: string;
+}
+
+const { primaryFont, primaryLabel, fallbackFonts, sampleText } = Astro.props;
+---
+
+<div class="ruler-container">
+	<h3>Overlap test — do the fonts align?</h3>
+	<p style="font-size: 0.8rem; color: #888; margin: 0 0 1rem;">
+		Primary font in <span style="color: #3498db;">blue</span>, fallback in
+		<span style="color: #e74c3c;">red</span>. Perfect alignment = minimal
+		CLS on swap.
+	</p>
+	{fallbackFonts.map((fallback) => (
+		<div
+			style="position: relative; height: 4.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid #eee;"
+		>
+			<div
+				style={`position: absolute; top: 0; left: 0; font-family: ${primaryFont}; font-size: 3rem; line-height: 1; color: rgba(52, 152, 219, 0.5); white-space: nowrap;`}
+			>
+				{sampleText}
+			</div>
+			<div
+				style={`position: absolute; top: 0; left: 0; font-family: '${primaryLabel} Fallback: ${fallback}'; font-size: 3rem; line-height: 1; color: rgba(231, 76, 60, 0.5); white-space: nowrap;`}
+			>
+				{sampleText}
+			</div>
+			<div
+				style="position: absolute; right: 0; bottom: 0.25rem; font-size: 0.65rem; font-family: monospace; color: #999;"
+			>
+				{primaryLabel} vs {fallback}
+			</div>
+		</div>
+	))}
+</div>

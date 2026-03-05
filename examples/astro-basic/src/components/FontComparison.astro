@@ -1,0 +1,35 @@
+---
+interface Props {
+	primaryFont: string;
+	primaryLabel: string;
+	fallbackFonts: string[];
+	sampleText: string;
+}
+
+const { primaryFont, primaryLabel, fallbackFonts, sampleText } = Astro.props;
+---
+
+<h2>Side-by-side comparison</h2>
+{fallbackFonts.map((fallback) => (
+	<div class="font-comparison">
+		<div class="font-panel">
+			<h3>{primaryLabel} (web font)</h3>
+			<div class="sample" style={`font-family: ${primaryFont}`}>
+				{sampleText}
+			</div>
+			<div class="details">font-family: {primaryFont}</div>
+		</div>
+		<div class="font-panel">
+			<h3>Fallback: {fallback} (scaled)</h3>
+			<div
+				class="sample"
+				style={`font-family: "${primaryLabel} Fallback: ${fallback}"`}
+			>
+				{sampleText}
+			</div>
+			<div class="details">
+				font-family: "{primaryLabel} Fallback: {fallback}"
+			</div>
+		</div>
+	</div>
+))}

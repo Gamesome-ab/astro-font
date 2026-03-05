@@ -1,0 +1,69 @@
+{
+	"name": "@gamesome/astro-font",
+	"version": "0.0.5",
+	"description": "Host fonts locally in your Astro project. Set up custom preloaded fonts and fallback fonts to reduce CLS. The Astro variant of https://www.npmjs.com/package/@next/font",
+	"main": "./dist/astro-font.js",
+	"module": "./dist/astro-font.mjs",
+	"types": "./dist/types/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/types/index.d.ts",
+			"import": "./dist/astro-font.mjs",
+			"require": "./dist/astro-font.js"
+		},
+		"./AstroFont.astro": {
+			"types": "./src/components/AstroFont.ts",
+			"import": "./src/components/AstroFont.ts",
+			"require": "./src/components/AstroFont.ts"
+		}
+	},
+	"files": [
+		"dist",
+		"src/components"
+	],
+	"scripts": {
+		"dev": "vite build --watch",
+		"build": "vite build",
+		"test": "vitest run"
+	},
+	"peerDependencies": {
+		"astro": "^3.0.0 || ^4.0.0"
+	},
+	"dependencies": {
+		"@gamesome/core-font": "workspace:*"
+	},
+	"devDependencies": {
+		"@astrojs/check": "0.2.1",
+		"astro": "3.3.2",
+		"typescript": "5.2.2",
+		"vite": "4.5.0",
+		"vite-plugin-dts": "3.6.3",
+		"vitest": "0.34.6"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Gamesome-ab/astro-font.git"
+	},
+	"keywords": [
+		"astro",
+		"astro-component",
+		"astro-integration",
+		"font",
+		"i18n",
+		"interinternationalisation",
+		"localisation",
+		"optimisation",
+		"optimization",
+		"performance",
+		"withastro"
+	],
+	"author": "Johan Svensson",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/Gamesome-ab/astro-font/issues"
+	},
+	"homepage": "https://github.com/Gamesome-ab/astro-font#readme",
+	"publishConfig": {
+		"access": "public"
+	}
+}

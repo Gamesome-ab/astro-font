@@ -1,0 +1,28 @@
+{
+	"name": "example-style-dictionary-basic",
+	"type": "module",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"tokens": "node build-tokens.mjs",
+		"dev": "npm run tokens && vite",
+		"build": "npm run tokens && vite build",
+		"preview": "vite preview"
+	},
+	"dependencies": {
+		"@gamesome/style-dictionary-font": "workspace:*",
+		"@fontsource-variable/lora": "latest",
+		"@fontsource-variable/rubik": "latest",
+		"@fontsource-variable/sora": "latest",
+		"style-dictionary": "^4.0.0",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0"
+	},
+	"devDependencies": {
+		"@types/react": "^18.2.0",
+		"@types/react-dom": "^18.2.0",
+		"@vitejs/plugin-react": "^4.2.0",
+		"typescript": "5.2.2",
+		"vite": "4.5.0"
+	}
+}

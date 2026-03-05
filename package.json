@@ -1,78 +1,23 @@
 {
-	"name": "@gamesome/astro-font",
-	"version": "0.0.4",
-	"description": "Host fonts locally in your Astro project. Set up custom preloaded fonts and fallback fonts to reduce CLS. The Astro variant of https://www.npmjs.com/package/@next/font",
-	"main": "./dist/astro-font.js",
-	"module": "./dist/astro-font.mjs",
-	"files": [
-		"dist",
-		"components",
-		"utils"
-	],
-	"exports": {
-		".": {
-			"types": "./dist/types/index.d.ts",
-			"import": "./dist/astro-font.mjs",
-			"require": "./dist/astro-font.js"
-		},
-		"./AstroFont.astro": {
-			"types": "./components/AstroFont.ts",
-			"import": "./components/AstroFont.ts",
-			"require": "./components/AstroFont.ts"
-		}
-	},
-	"types": "./dist/types/index.d.ts",
+	"name": "@gamesome/font-monorepo",
+	"private": true,
 	"scripts": {
-		"dev": "vite build --watch",
-		"build": "vite build",
-		"test": "vitest run",
-		"pre-push": "yarn build && yarn test",
-		"prepack": "yarn build",
-		"prepublishOnly": "yarn build"
-	},
-	"peerDependencies": {
-		"astro": "^3.0.0 || ^4.0.0"
-	},
-	"dependencies": {
-		"@capsizecss/core": "3.1.1",
-		"@capsizecss/metrics": "1.2.0",
-		"clean-css": "5.3.2"
+		"build": "pnpm -r --filter './packages/*' run build",
+		"test": "pnpm -r --filter './packages/*' run test",
+		"dev": "pnpm -r --filter './packages/*' run dev",
+		"pre-push": "pnpm build && pnpm test",
+		"changeset": "changeset",
+		"version-packages": "changeset version",
+		"release": "pnpm build && pnpm test && changeset publish"
 	},
 	"devDependencies": {
-		"@astrojs/check": "0.2.1",
-		"@types/clean-css": "4.2.10",
-		"astro": "3.3.2",
+		"@changesets/cli": "^2.30.0",
 		"prettier": "3.0.3",
 		"prettier-plugin-astro": "0.12.0",
-		"typescript": "5.2.2",
-		"vite": "4.5.0",
-		"vite-plugin-dts": "3.6.3",
-		"vitest": "0.34.6"
+		"typescript": "5.2.2"
 	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/Gamesome-ab/astro-font.git"
-	},
-	"keywords": [
-		"astro",
-		"astro-component",
-		"astro-integration",
-		"font",
-		"i18n",
-		"interinternationalisation",
-		"localisation",
-		"optimisation",
-		"optimization",
-		"performance",
-		"withastro"
-	],
-	"author": "Johan Svensson",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/Gamesome-ab/astro-font/issues"
-	},
-	"homepage": "https://github.com/Gamesome-ab/astro-font#readme",
-	"publishConfig": {
-		"access": "public"
+	"engines": {
+		"node": ">=18",
+		"pnpm": ">=8"
 	}
 }

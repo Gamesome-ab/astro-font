@@ -1,0 +1,29 @@
+---
+import AstroFont from "@gamesome/astro-font/AstroFont.astro";
+import "../../../utils/font-showcase.css";
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>{title}</title>
+		<AstroFont />
+	</head>
+	<body>
+		<nav class="font-nav">
+			<a href="/rubik" class:list={[{ active: currentPath === "/rubik" || currentPath === "/rubik/" }]}>Rubik Variable</a>
+			<a href="/sora" class:list={[{ active: currentPath === "/sora" || currentPath === "/sora/" }]}>Sora Variable</a>
+			<a href="/lora" class:list={[{ active: currentPath === "/lora" || currentPath === "/lora/" }]}>Lora Variable</a>
+		</nav>
+		<slot />
+	</body>
+</html>

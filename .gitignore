@@ -3,3 +3,16 @@ node_modules
 dist
 gamesome-astro-font-*.tgz
 yarn-error.log
+yarn.lock
+.direnv
+result
+.playwright-mcp/
+
+# Astro generated cache/types
+**/.astro/
+
+# Generated token outputs
+examples/style-dictionary-basic/src/tokens/generated/
+!examples/style-dictionary-basic/src/tokens/generated/.gitkeep
+examples/style-dictionary-basic/build/
+examples/style-dictionary-basic/public/

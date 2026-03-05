@@ -1,0 +1,61 @@
+---
+import Layout from "../layouts/Layout.astro";
+import FontComparison from "../components/FontComparison.astro";
+import OverlapTest from "../components/OverlapTest.astro";
+import WidthComparison from "../components/WidthComparison.astro";
+import MetricsTable from "../components/MetricsTable.astro";
+
+const primaryFont = '"Sora Variable"';
+const primaryLabel = "Sora Variable";
+const fallbackFonts = ["Helvetica", "Helvetica Neue", "Arial"];
+const sampleText = "Hamburgevons";
+---
+
+<Layout title="Sora Variable — Font Fallback Showcase">
+	<div class="font-showcase font-sora">
+		<h1>Sora Variable</h1>
+		<p class="subtitle">
+			Sans-serif variable font with scaled fallbacks generated via <code>@gamesome/astro-font</code>
+		</p>
+
+		<section class="generated-stack">
+			<h2>Generated font stack</h2>
+			<p class="sample">
+				{sampleText}
+			</p>
+			<p class="sample">
+				The quick brown fox jumps over the lazy dog. 0123456789
+			</p>
+			<p class="details">
+				Inherits from .font-sora selector with full fallback chain
+			</p>
+		</section>
+
+		<FontComparison
+			primaryFont={primaryFont}
+			primaryLabel={primaryLabel}
+			fallbackFonts={fallbackFonts}
+			sampleText={sampleText}
+		/>
+
+		<OverlapTest
+			primaryFont={primaryFont}
+			primaryLabel={primaryLabel}
+			fallbackFonts={fallbackFonts}
+			sampleText={sampleText}
+		/>
+
+		<WidthComparison
+			primaryFont={primaryFont}
+			primaryLabel={primaryLabel}
+			fallbackFonts={fallbackFonts}
+			sampleText="The quick brown fox jumps over the lazy dog"
+		/>
+
+		<MetricsTable
+			primaryFont={primaryFont}
+			primaryLabel={primaryLabel}
+			fallbackFonts={fallbackFonts}
+		/>
+	</div>
+</Layout>

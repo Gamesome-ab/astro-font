@@ -1,0 +1,61 @@
+---
+import Layout from "../layouts/Layout.astro";
+import FontComparison from "../components/FontComparison.astro";
+import OverlapTest from "../components/OverlapTest.astro";
+import WidthComparison from "../components/WidthComparison.astro";
+import MetricsTable from "../components/MetricsTable.astro";
+
+const primaryFont = '"Lora Variable"';
+const primaryLabel = "Lora Variable";
+const fallbackFonts = ["Georgia", "Times New Roman"];
+const sampleText = "Hamburgevons";
+---
+
+<Layout title="Lora Variable — Font Fallback Showcase">
+	<div class="font-showcase font-lora">
+		<h1>Lora Variable</h1>
+		<p class="subtitle">
+			Serif variable font with scaled fallbacks generated via <code>@gamesome/astro-font</code>
+		</p>
+
+		<section class="generated-stack">
+			<h2>Generated font stack</h2>
+			<p class="sample">
+				{sampleText}
+			</p>
+			<p class="sample">
+				The quick brown fox jumps over the lazy dog. 0123456789
+			</p>
+			<p class="details">
+				Inherits from .font-lora selector with full fallback chain
+			</p>
+		</section>
+
+		<FontComparison
+			primaryFont={primaryFont}
+			primaryLabel={primaryLabel}
+			fallbackFonts={fallbackFonts}
+			sampleText={sampleText}
+		/>
+
+		<OverlapTest
+			primaryFont={primaryFont}
+			primaryLabel={primaryLabel}
+			fallbackFonts={fallbackFonts}
+			sampleText={sampleText}
+		/>
+
+		<WidthComparison
+			primaryFont={primaryFont}
+			primaryLabel={primaryLabel}
+			fallbackFonts={fallbackFonts}
+			sampleText="The quick brown fox jumps over the lazy dog"
+		/>
+
+		<MetricsTable
+			primaryFont={primaryFont}
+			primaryLabel={primaryLabel}
+			fallbackFonts={fallbackFonts}
+		/>
+	</div>
+</Layout>
