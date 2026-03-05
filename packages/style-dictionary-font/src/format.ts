@@ -41,29 +41,25 @@ export const gamesomeFontFaceFormat = {
 			prettifyOutput,
 		});
 
-		// Write preload manifest
-		if (result.preloads.length) {
-			const manifest: PreloadManifestEntry[] = result.preloads.map(
-				(href) => ({
-					href,
-					rel: "preload",
-					as: "font",
-					type: "font/woff2",
-					crossorigin: "anonymous",
-				}),
-			);
+		// Always write preload manifest to avoid stale files from previous builds.
+		const manifest: PreloadManifestEntry[] = result.preloads.map((href) => ({
+			href,
+			rel: "preload",
+			as: "font",
+			type: "font/woff2",
+			crossorigin: "anonymous",
+		}));
 
-			const manifestPath = path.join(buildPath, "preloads.json");
-			fs.mkdirSync(path.dirname(manifestPath), { recursive: true });
-			fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
-		}
+		const manifestPath = path.join(buildPath, "preloads.json");
+		fs.mkdirSync(path.dirname(manifestPath), { recursive: true });
+		fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
 
 		return result.css;
 	},
 };
 
 function resolveFontFaceDeclarations(
-	families: FontFamily[],
+	families: FontFamily[]
 ): FontFaceDeclarations {
 	const cssContents: Record<string, string> = {};
 
@@ -89,7 +85,7 @@ function resolveFontFaceDeclarations(
 
 export function buildFontFaceDeclarations(
 	families: { name: string; imports: (string | { css: string })[] }[],
-	cssContents: Record<string, string>,
+	cssContents: Record<string, string>
 ): FontFaceDeclarations {
 	const declarations: FontFaceDeclarations = {};
 

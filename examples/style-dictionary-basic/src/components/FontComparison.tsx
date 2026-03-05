@@ -1,5 +1,3 @@
-import { useRef, useEffect, useState } from "react";
-
 interface Props {
 	primaryFont: string;
 	primaryLabel: string;
@@ -20,18 +18,13 @@ export function FontComparison({
 				<div className="font-comparison" key={fallback}>
 					<div className="font-panel">
 						<h3>{primaryLabel} (web font)</h3>
-						<div
-							className="sample"
-							style={{ fontFamily: primaryFont }}
-						>
+						<div className="sample" style={{ fontFamily: primaryFont }}>
 							{sampleText}
 						</div>
 						<div className="details">font-family: {primaryFont}</div>
 					</div>
 					<div className="font-panel">
-						<h3>
-							Fallback: {fallback} (scaled)
-						</h3>
+						<h3>Fallback: {fallback} (scaled)</h3>
 						<div
 							className="sample"
 							style={{
