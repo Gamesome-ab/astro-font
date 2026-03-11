@@ -116,4 +116,99 @@ describe("generateCss", () => {
 			`html{font-family:"DM Sans Variable","DM Sans Variable Fallback: Helvetica","DM Sans Variable Fallback: Helvetica Neue","DM Sans Variable Fallback: Arial",ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"!important}@font-face{font-family:'DM Sans Variable';font-style:italic;font-display:swap;font-weight:100 1000;src:url(./files/dm-sans-latin-ext-wght-italic.woff2) format('woff2-variations');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}@font-face{font-family:'DM Sans Variable';font-style:italic;font-display:swap;font-weight:100 1000;src:url(./files/dm-sans-latin-wght-italic.woff2) format('woff2-variations');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'DM Sans Variable';font-style:normal;font-display:swap;font-weight:100 1000;src:url(./files/dm-sans-latin-ext-wght-normal.woff2) format('woff2-variations');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}@font-face{font-family:'DM Sans Variable';font-style:normal;font-display:swap;font-weight:100 1000;src:url(./files/dm-sans-latin-wght-normal.woff2) format('woff2-variations');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:"DM Sans Variable Fallback: Helvetica";src:local('Helvetica');font-display:swap;ascent-override:94.9001%;descent-override:29.6563%;size-adjust:104.531%}@font-face{font-family:"DM Sans Variable Fallback: Helvetica Neue";src:local('Helvetica Neue'),local('HelveticaNeue');font-display:swap;ascent-override:95.794%;descent-override:29.9356%;line-gap-override:0%;size-adjust:103.5556%}@font-face{font-family:"DM Sans Variable Fallback: Arial";src:local('Arial'),local('ArialMT');font-display:swap;ascent-override:94.9001%;descent-override:29.6563%;line-gap-override:0%;size-adjust:104.531%}@font-face{font-family:"DM Sans Variable Fallback: Helvetica";src:local('Helvetica Bold');font-display:swap;font-weight:700;ascent-override:96.5802%;descent-override:30.1813%;size-adjust:102.7125%}@font-face{font-family:"DM Sans Variable Fallback: Helvetica Neue";src:local('Helvetica Neue Bold');font-display:swap;font-weight:700;ascent-override:96.5842%;descent-override:30.1826%;line-gap-override:0%;size-adjust:102.7083%}@font-face{font-family:"DM Sans Variable Fallback: Arial";src:local('Arial Bold');font-display:swap;font-weight:700;ascent-override:96.5802%;descent-override:30.1813%;line-gap-override:0%;size-adjust:102.7125%}`
 		);
 	});
+
+	it("should use supported custom bold weights when Capsize exposes that variant", async () => {
+		const families = parsedFamilies([
+			{
+				name: "DM Sans Variable",
+				imports: ["@fontsource-variable/dm-sans/wght.css"],
+				fallbacks: [
+					{
+						name: "Helvetica",
+						bold: {
+							suffix: "Light",
+							weight: 300,
+						},
+					},
+				],
+			},
+		]);
+
+		const result = await generateCss({
+			families,
+			fontFaceDeclarations: {
+				dm_sans_variable: dmSansVariable,
+			},
+		});
+
+		expect(result.css).toContain("local('Helvetica Light')");
+		expect(result.css).toContain("font-weight:300");
+	});
+
+	it("should throw for unsupported custom bold weights with a clear fix", async () => {
+		const families = parsedFamilies([
+			{
+				name: "DM Sans Variable",
+				imports: ["@fontsource-variable/dm-sans/wght.css"],
+				fallbacks: [
+					{
+						name: "Arial",
+						bold: {
+							suffix: "SemiBold",
+							weight: 600,
+						},
+					},
+				],
+			},
+		]);
+
+		await expect(
+			generateCss({
+				families,
+				fontFaceDeclarations: {
+					dm_sans_variable: dmSansVariable,
+				},
+			})
+		).rejects.toThrow(/bold\.weight 600/);
+		await expect(
+			generateCss({
+				families,
+				fontFaceDeclarations: {
+					dm_sans_variable: dmSansVariable,
+				},
+			})
+		).rejects.toThrow(/Use bold\.scaling/);
+	});
+
+	it("should let bold.scaling override calculated values", async () => {
+		const families = parsedFamilies([
+			{
+				name: "DM Sans Variable",
+				imports: ["@fontsource-variable/dm-sans/wght.css"],
+				fallbacks: [
+					{
+						name: "Helvetica",
+						bold: {
+							suffix: "Bold",
+							weight: 700,
+							scaling: {
+								sizeAdjust: "111%",
+							},
+						},
+					},
+				],
+			},
+		]);
+
+		const result = await generateCss({
+			families,
+			fontFaceDeclarations: {
+				dm_sans_variable: dmSansVariable,
+			},
+		});
+
+		expect(result.css).toContain("local('Helvetica Bold')");
+		expect(result.css).toContain("font-weight:700");
+		expect(result.css).toContain("size-adjust:111%");
+	});
 });

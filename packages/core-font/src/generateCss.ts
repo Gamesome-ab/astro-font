@@ -7,7 +7,8 @@ import { fontFamilyToCamelCase as toCC } from "@capsizecss/metrics";
 import { createBoldFallbackFontFace } from "./createBoldFallbackFontFace";
 import {
 	calculateBoldFallbackFontFaces,
-	type MetricsWithVariants,
+	getMetricsCollectionEntry,
+	type MetricsCollection,
 } from "./calculateBoldFallbackFontFace";
 import { fontFamilyFromFamilyName } from "./utils/importExportNames";
 import { quoteIfNeeded, updatePropsInFontFace } from "./utils/cssUtils";
@@ -129,9 +130,14 @@ export const generateCss = async (
 					src: local('${fallback.name}');
 					font-display: swap;
 				}`;
+				if (!fallback.scaling || typeof fallback.scaling !== "object") {
+					throw new Error(
+						`@gamesome/core-font: invalid manual scaling for fallback font: ${fallback.name}`
+					);
+				}
 				const fontFace = updatePropsInFontFace(
 					initialFontFace,
-					fallback.scaling as Record<string, string>
+					fallback.scaling
 				);
 				fallbackFontFaceDeclarations.push(fontFace);
 			});
@@ -140,22 +146,19 @@ export const generateCss = async (
 				const { entireMetricsCollection } = await import(
 					"@capsizecss/metrics/entireMetricsCollection"
 				);
+				const metricsCollection: MetricsCollection = entireMetricsCollection;
 
-				const primaryMetrics: MetricsWithVariants =
-					entireMetricsCollection[toCC(family.staticFontName)];
-				if (!primaryMetrics) {
-					throw new Error(
-						`@gamesome/core-font: could not find metrics for primary font, static name: ${family.staticFontName}`
-					);
-				}
+				const primaryMetrics = getMetricsCollectionEntry(
+					metricsCollection,
+					toCC(family.staticFontName),
+					`@gamesome/core-font: could not find metrics for primary font, static name: ${family.staticFontName}`
+				);
 				const fallbackMetrics = fallbacksToCalculate.map((f) => {
-					const metric = entireMetricsCollection[toCC(f.name)];
-					if (!metric) {
-						throw new Error(
-							`@gamesome/core-font: could not find metrics for fallback font: ${f.name}. use another font, or add scaling props manually.`
-						);
-					}
-					return metric;
+					return getMetricsCollectionEntry(
+						metricsCollection,
+						toCC(f.name),
+						`@gamesome/core-font: could not find metrics for fallback font: ${f.name}. use another font, or add scaling props manually.`
+					);
 				});
 
 				const metrics = [primaryMetrics, ...fallbackMetrics];
@@ -193,10 +196,7 @@ export const generateCss = async (
 						...calculateBoldFallbackFontFaces(
 							boldCalculatedFallbacks,
 							primaryMetrics,
-							entireMetricsCollection as unknown as Record<
-								string,
-								MetricsWithVariants
-							>,
+							metricsCollection,
 							fallbackFamilyName,
 							toCC
 						)

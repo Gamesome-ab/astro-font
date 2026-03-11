@@ -27,9 +27,9 @@ For regular weight, we delegate to Capsize's `createFontStack()` which computes 
 
 Bold text is wider than regular text, and different fonts grow at different rates when bolded. Without weight-specific overrides, a fallback `@font-face` that looks good at regular weight can be significantly off at bold.
 
-Capsize's `createFontStack()` only generates a single set of overrides (for regular weight) and doesn't export its internal `calculateOverrideValues` function. We replicate that calculation using bold-specific variant metrics from Capsize's metrics collection (`variants["700"]`), which includes `xWidthAvg`, `ascent`, `descent`, `lineGap`, and `unitsPerEm` for the bold cut of each font.
+Capsize's `createFontStack()` only generates a single set of overrides (for regular weight) and doesn't export its internal `calculateOverrideValues` function. We replicate that calculation using weight-specific variant metrics from Capsize's metrics collection when that exact weight exists (for example `variants["700"]` for bold), which include `xWidthAvg`, `ascent`, `descent`, `lineGap`, and `unitsPerEm` for that cut of each font.
 
-The bold fallback `@font-face` block uses the same `font-family` name as the regular fallback but adds `font-weight: 700`, so the browser selects the right override set automatically.
+The bold fallback `@font-face` block uses the same `font-family` name as the regular fallback and adds the configured `font-weight`, so the browser selects the right override set automatically.
 
 ### Why bold fallbacks matter
 
@@ -38,6 +38,7 @@ Browsers don't reliably synthesize bold for fallback fonts ([source](https://www
 ### User overrides
 
 If the automatic bold calculation doesn't produce good results for a specific font pairing, you can override individual values via the `bold.scaling` property on fallback fonts. These values take precedence over the calculated ones. See the `FallbackFont` configuration in your framework package's README.
+If you set a custom `bold.weight`, automatic calculation only works when Capsize exposes metrics for that exact weight. Otherwise we throw a build error that tells you to use `bold.scaling`, change the weight to `700`, or disable the bold fallback.
 
 ## Limitations
 
@@ -70,12 +71,12 @@ For variable fonts (e.g. "Lora Variable"), Capsize's `variants["700"]` metrics c
 
 ## Comparison with other tools
 
-| Feature | @gamesome/core-font | Capsize | Next.js (`next/font`) | Fontaine |
-|---------|--------------------|---------|-----------------------|----------|
-| Regular weight fallbacks | Yes (via Capsize) | Yes | Yes | Yes |
-| Per-weight bold fallbacks | Yes | No (single weight only) | No | Yes (since [#264](https://github.com/unjs/fontaine/pull/264)) |
-| Manual override escape hatch | Yes (`bold.scaling`) | N/A | No | No |
-| Multiple fallback fonts | Yes | Yes | No (Arial or Times New Roman only) | No |
+| Feature                      | @gamesome/core-font  | Capsize                 | Next.js (`next/font`)              | Fontaine                                                      |
+| ---------------------------- | -------------------- | ----------------------- | ---------------------------------- | ------------------------------------------------------------- |
+| Regular weight fallbacks     | Yes (via Capsize)    | Yes                     | Yes                                | Yes                                                           |
+| Per-weight bold fallbacks    | Yes                  | No (single weight only) | No                                 | Yes (since [#264](https://github.com/unjs/fontaine/pull/264)) |
+| Manual override escape hatch | Yes (`bold.scaling`) | N/A                     | No                                 | No                                                            |
+| Multiple fallback fonts      | Yes                  | Yes                     | No (Arial or Times New Roman only) | No                                                            |
 
 ## Tools
 

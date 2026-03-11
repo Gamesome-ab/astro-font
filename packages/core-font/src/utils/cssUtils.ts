@@ -21,7 +21,7 @@ export const getRelevantFontFaceBlok = (
 export const updatePropInFontFace = (
 	fontFaceDeclaration: string,
 	prop: string,
-	value
+	value: string | number
 ) => {
 	const propRegex = new RegExp(`${prop}:.*;`);
 	const propExists = propRegex.test(fontFaceDeclaration);
@@ -38,7 +38,7 @@ const toKebabCase = (str: string) => {
 
 export const updatePropsInFontFace = (
 	fontFaceDeclaration: string,
-	props: Record<string, string>
+	props: object
 ) => {
 	let newFontFaceDeclaration = fontFaceDeclaration;
 	Object.entries(props).forEach(([prop, value]) => {
