@@ -17,6 +17,9 @@ const { primaryFont, primaryLabel, fallbackFonts, sampleText } = Astro.props;
 			<div class="sample" style={`font-family: ${primaryFont}`}>
 				{sampleText}
 			</div>
+			<div class="sample" style={`font-family: ${primaryFont}; font-weight: 700`}>
+				{sampleText}
+			</div>
 			<div class="details">font-family: {primaryFont}</div>
 		</div>
 		<div class="font-panel">
@@ -24,6 +27,12 @@ const { primaryFont, primaryLabel, fallbackFonts, sampleText } = Astro.props;
 			<div
 				class="sample"
 				style={`font-family: "${primaryLabel} Fallback: ${fallback}"`}
+			>
+				{sampleText}
+			</div>
+			<div
+				class="sample"
+				style={`font-family: "${primaryLabel} Fallback: ${fallback}"; font-weight: 700`}
 			>
 				{sampleText}
 			</div>

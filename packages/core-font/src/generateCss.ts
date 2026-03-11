@@ -5,6 +5,10 @@ import CleanCSS from "clean-css";
 import { fontFamilyToCamelCase as toCC } from "@capsizecss/metrics";
 
 import { createBoldFallbackFontFace } from "./createBoldFallbackFontFace";
+import {
+	calculateBoldFallbackFontFaces,
+	type MetricsWithVariants,
+} from "./calculateBoldFallbackFontFace";
 import { fontFamilyFromFamilyName } from "./utils/importExportNames";
 import { quoteIfNeeded, updatePropsInFontFace } from "./utils/cssUtils";
 
@@ -137,7 +141,7 @@ export const generateCss = async (
 					"@capsizecss/metrics/entireMetricsCollection"
 				);
 
-				const primaryMetrics =
+				const primaryMetrics: MetricsWithVariants =
 					entireMetricsCollection[toCC(family.staticFontName)];
 				if (!primaryMetrics) {
 					throw new Error(
@@ -178,17 +182,42 @@ export const generateCss = async (
 					);
 				}
 				fallbackFontFaceDeclarations.push(fixedFontFaces);
+
+				// Bold fallbacks need their own override calculations because bold glyphs
+				// have different widths than regular (e.g. Helvetica Bold is ~7.7% wider).
+				const boldCalculatedFallbacks = fallbacksToCalculate.filter(
+					(f) => f.bold !== false
+				);
+				if (boldCalculatedFallbacks.length) {
+					fallbackFontFaceDeclarations.push(
+						...calculateBoldFallbackFontFaces(
+							boldCalculatedFallbacks,
+							primaryMetrics,
+							entireMetricsCollection as unknown as Record<
+								string,
+								MetricsWithVariants
+							>,
+							fallbackFamilyName,
+							toCC
+						)
+					);
+				}
 			}
-			// we want to add one additional block for each fallback font, representing the bold variants.
-			// we do this by changing the string in local() to the bold variant and add font-weight: accodring to the config.
+
 			const ffAsString = fallbackFontFaceDeclarations.join("\n");
 			allFallbackFontFaceDeclarations.push(ffAsString);
-			allFallbackFontFaceDeclarations.push(
-				...createBoldFallbackFontFace(
-					family.fallbacks.filter((f) => f.bold !== false),
-					ffAsString
-				)
-			);
+
+			// For precalculated/skipped fallbacks we don't have raw metrics to recalculate,
+			// so we reuse the existing string manipulation approach for bold variants.
+			const nonCalculatedBoldFallbacks = [
+				...precalculatedFallbacks,
+				...fallbacksToSkip,
+			].filter((f) => f.bold !== false);
+			if (nonCalculatedBoldFallbacks.length) {
+				allFallbackFontFaceDeclarations.push(
+					...createBoldFallbackFontFace(nonCalculatedBoldFallbacks, ffAsString)
+				);
+			}
 		}
 
 		if (family.appendFontFamilies) {

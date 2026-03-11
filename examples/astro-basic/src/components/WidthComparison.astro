@@ -15,6 +15,8 @@ const { primaryFont, primaryLabel, fallbackFonts, sampleText } = Astro.props;
 		Bars show measured text width of "{sampleText.slice(0, 30)}{sampleText.length > 30 ? "…" : ""}" at 16px.
 	</p>
 	<div id="width-bars"></div>
+	<h4 style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #888; margin: 1.5rem 0 0.75rem;">Bold</h4>
+	<div id="width-bars-bold"></div>
 </div>
 
 <script
@@ -22,7 +24,8 @@ const { primaryFont, primaryLabel, fallbackFonts, sampleText } = Astro.props;
 >
 	function measureWidths() {
 		const container = document.getElementById("width-bars");
-		if (!container) return;
+		const containerBold = document.getElementById("width-bars-bold");
+		if (!container || !containerBold) return;
 
 		const el = document.createElement("span");
 		el.style.position = "absolute";
@@ -32,38 +35,46 @@ const { primaryFont, primaryLabel, fallbackFonts, sampleText } = Astro.props;
 		el.textContent = sampleText;
 		document.body.appendChild(el);
 
-		const measurements = [];
+		function measure(fontWeight) {
+			el.style.fontWeight = fontWeight;
+			const measurements = [];
 
-		el.style.fontFamily = primaryFont;
-		measurements.push({
-			label: primaryLabel,
-			width: el.getBoundingClientRect().width,
-			isPrimary: true,
-		});
-
-		for (const fallback of fallbackFonts) {
-			el.style.fontFamily = `"${primaryLabel} Fallback: ${fallback}"`;
+			el.style.fontFamily = primaryFont;
 			measurements.push({
-				label: `Fallback: ${fallback}`,
+				label: primaryLabel,
 				width: el.getBoundingClientRect().width,
-				isPrimary: false,
+				isPrimary: true,
 			});
+
+			for (const fallback of fallbackFonts) {
+				el.style.fontFamily = `"${primaryLabel} Fallback: ${fallback}"`;
+				measurements.push({
+					label: `Fallback: ${fallback}`,
+					width: el.getBoundingClientRect().width,
+					isPrimary: false,
+				});
+			}
+			return measurements;
 		}
 
+		function render(measurements, target) {
+			const maxWidth = Math.max(...measurements.map((m) => m.width));
+			target.innerHTML = measurements
+				.map(
+					(m) => `
+				<div class="width-bar">
+					<div class="bar-label">${m.label} — ${m.width.toFixed(1)}px</div>
+					<div class="bar ${m.isPrimary ? "primary" : "fallback"}" style="width: ${(m.width / maxWidth) * 100}%"></div>
+				</div>
+			`
+				)
+				.join("");
+		}
+
+		render(measure("normal"), container);
+		render(measure("bold"), containerBold);
+
 		document.body.removeChild(el);
-
-		const maxWidth = Math.max(...measurements.map((m) => m.width));
-
-		container.innerHTML = measurements
-			.map(
-				(m) => `
-			<div class="width-bar">
-				<div class="bar-label">${m.label} — ${m.width.toFixed(1)}px</div>
-				<div class="bar ${m.isPrimary ? "primary" : "fallback"}" style="width: ${(m.width / maxWidth) * 100}%"></div>
-			</div>
-		`
-			)
-			.join("");
 	}
 
 	// Wait for fonts to load before measuring

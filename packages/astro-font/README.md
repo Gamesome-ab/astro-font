@@ -325,7 +325,9 @@ The `suffix` is the string that is appended to the font name to get the bold var
 
 The `weight` is the font-weight that triggers the bold variant. The default is `bold` (aka. `700`).
 
-`scaling` takes a [FontScaling](#fontscaling) object. If you don't set this, we will use the same scaling as the non-bold fallback. Our testing shows that you likely want to set a slightly smaller `sizeAdjust` for the bold variant (e.g. 5% smaller than the non-bold variant). Note that the properties here override the base properties. I.e. if you want to reduce the `sizeAdjust` by 5% you need to set it to a value that is 5% smaller than the non-bold variant, not 0.95!
+`scaling` takes a [FontScaling](#fontscaling) object. If you don't set this, we will calculate bold-specific overrides using Capsize's per-weight variant metrics (`xWidthAvg`, `ascent`, `descent`, etc. for the bold cut). Values you set here take precedence over the calculated ones.
+
+For some font pairings (especially serif fonts), the automatic bold calculation may produce visible misalignment due to inherent limitations of the CSS `size-adjust` descriptor. See [Limitations in @gamesome/core-font](../core-font/README.md#limitations) for details and workarounds.
 
 #### `scaling`
 
@@ -392,15 +394,16 @@ A lot of tools, like the last one mentioned in [tools](#tools), will focus on le
 
 The proposal of changing letter spacing has one additional negative side-effect (in addition to requiring JavaScript to work), which is that for languages like Arabic (that depend on characters being "connected") it will not look right.
 
+For a detailed explanation of how the fallback scaling algorithm works, how bold fallbacks are calculated, and known limitations, see the [@gamesome/core-font README](../core-font/README.md).
+
 ## Tools
 
 If you run your page in a manner that it renders the desired font (never mind if something else gets rendered first), you can use this bookmarklet to overlay another font on top of it. This means you can easily test out different fonts on your page without having to change the CSS.
 
-The tool: https://lucaslarson.github.io/fallback/
-
-Use this resource to check which fonts are considered web-safe: https://www.w3schools.com/cssref/css_websafe_fonts.php
-
-This is another similar tool to compare two fonts: https://meowni.ca/font-style-matcher/
+- **Perfect-ish Font Fallback:** https://www.industrialempathy.com/perfect-ish-font-fallback/ — visually compare a web font against system fallbacks and preview override values. Useful for choosing which fallback font pairs best with your web font.
+- **Font overlay bookmarklet:** https://lucaslarson.github.io/fallback/ — overlay a different font on your page to compare
+- **Web-safe fonts reference:** https://www.w3schools.com/cssref/css_websafe_fonts.php — check which fonts are available across platforms
+- **Font style matcher:** https://meowni.ca/font-style-matcher/ — visually compare two fonts side by side
 
 ## FAQ
 

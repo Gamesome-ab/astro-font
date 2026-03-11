@@ -20,54 +20,106 @@ export function OverlapTest({
 				Perfect alignment = minimal CLS on swap.
 			</p>
 			{fallbackFonts.map((fallback) => (
-				<div
-					key={fallback}
-					style={{
-						position: "relative",
-						height: "4.5rem",
-						marginBottom: "1.5rem",
-						borderBottom: "1px solid #eee",
-					}}
-				>
+				<div key={fallback}>
 					<div
 						style={{
-							position: "absolute",
-							top: 0,
-							left: 0,
-							fontFamily: primaryFont,
-							fontSize: "3rem",
-							lineHeight: 1,
-							color: "rgba(52, 152, 219, 0.5)",
-							whiteSpace: "nowrap",
+							position: "relative",
+							height: "4.5rem",
+							marginBottom: "0.5rem",
+							borderBottom: "1px solid #eee",
 						}}
 					>
-						{sampleText}
+						<div
+							style={{
+								position: "absolute",
+								top: 0,
+								left: 0,
+								fontFamily: primaryFont,
+								fontSize: "3rem",
+								lineHeight: 1,
+								color: "rgba(52, 152, 219, 0.5)",
+								whiteSpace: "nowrap",
+							}}
+						>
+							{sampleText}
+						</div>
+						<div
+							style={{
+								position: "absolute",
+								top: 0,
+								left: 0,
+								fontFamily: `"${primaryLabel} Fallback: ${fallback}"`,
+								fontSize: "3rem",
+								lineHeight: 1,
+								color: "rgba(231, 76, 60, 0.5)",
+								whiteSpace: "nowrap",
+							}}
+						>
+							{sampleText}
+						</div>
+						<div
+							style={{
+								position: "absolute",
+								right: 0,
+								bottom: "0.25rem",
+								fontSize: "0.65rem",
+								fontFamily: "monospace",
+								color: "#999",
+							}}
+						>
+							{primaryLabel} vs {fallback} (regular)
+						</div>
 					</div>
 					<div
 						style={{
-							position: "absolute",
-							top: 0,
-							left: 0,
-							fontFamily: `"${primaryLabel} Fallback: ${fallback}"`,
-							fontSize: "3rem",
-							lineHeight: 1,
-							color: "rgba(231, 76, 60, 0.5)",
-							whiteSpace: "nowrap",
+							position: "relative",
+							height: "4.5rem",
+							marginBottom: "1.5rem",
+							borderBottom: "1px solid #eee",
 						}}
 					>
-						{sampleText}
-					</div>
-					<div
-						style={{
-							position: "absolute",
-							right: 0,
-							bottom: "0.25rem",
-							fontSize: "0.65rem",
-							fontFamily: "monospace",
-							color: "#999",
-						}}
-					>
-						{primaryLabel} vs {fallback}
+						<div
+							style={{
+								position: "absolute",
+								top: 0,
+								left: 0,
+								fontFamily: primaryFont,
+								fontSize: "3rem",
+								lineHeight: 1,
+								fontWeight: 700,
+								color: "rgba(52, 152, 219, 0.5)",
+								whiteSpace: "nowrap",
+							}}
+						>
+							{sampleText}
+						</div>
+						<div
+							style={{
+								position: "absolute",
+								top: 0,
+								left: 0,
+								fontFamily: `"${primaryLabel} Fallback: ${fallback}"`,
+								fontSize: "3rem",
+								lineHeight: 1,
+								fontWeight: 700,
+								color: "rgba(231, 76, 60, 0.5)",
+								whiteSpace: "nowrap",
+							}}
+						>
+							{sampleText}
+						</div>
+						<div
+							style={{
+								position: "absolute",
+								right: 0,
+								bottom: "0.25rem",
+								fontSize: "0.65rem",
+								fontFamily: "monospace",
+								color: "#999",
+							}}
+						>
+							{primaryLabel} vs {fallback} (bold)
+						</div>
 					</div>
 				</div>
 			))}

@@ -21,39 +21,45 @@ export function WidthComparison({
 }: Props) {
 	const measureRef = useRef<HTMLDivElement>(null);
 	const [measurements, setMeasurements] = useState<Measurement[]>([]);
+	const [boldMeasurements, setBoldMeasurements] = useState<Measurement[]>([]);
 
 	useEffect(() => {
 		const measure = () => {
 			if (!measureRef.current) return;
 
 			const el = measureRef.current;
-			const results: Measurement[] = [];
 
-			// Measure primary
-			el.style.fontFamily = primaryFont;
-			results.push({
-				label: primaryLabel,
-				width: el.getBoundingClientRect().width,
-				isPrimary: true,
-			});
+			function doMeasure(fontWeight: string): Measurement[] {
+				el.style.fontWeight = fontWeight;
+				const results: Measurement[] = [];
 
-			// Measure fallbacks
-			for (const fallback of fallbackFonts) {
-				el.style.fontFamily = `"${primaryLabel} Fallback: ${fallback}"`;
+				el.style.fontFamily = primaryFont;
 				results.push({
-					label: `Fallback: ${fallback}`,
+					label: primaryLabel,
 					width: el.getBoundingClientRect().width,
-					isPrimary: false,
+					isPrimary: true,
 				});
+
+				for (const fallback of fallbackFonts) {
+					el.style.fontFamily = `"${primaryLabel} Fallback: ${fallback}"`;
+					results.push({
+						label: `Fallback: ${fallback}`,
+						width: el.getBoundingClientRect().width,
+						isPrimary: false,
+					});
+				}
+				return results;
 			}
 
-			setMeasurements(results);
+			setMeasurements(doMeasure("normal"));
+			setBoldMeasurements(doMeasure("bold"));
 		};
 
 		document.fonts.ready.then(measure);
 	}, [primaryFont, fallbackFonts, sampleText]);
 
 	const maxWidth = Math.max(...measurements.map((m) => m.width), 1);
+	const boldMaxWidth = Math.max(...boldMeasurements.map((m) => m.width), 1);
 
 	return (
 		<div className="width-comparison">
@@ -84,6 +90,20 @@ export function WidthComparison({
 					<div
 						className={`bar ${m.isPrimary ? "primary" : "fallback"}`}
 						style={{ width: `${(m.width / maxWidth) * 100}%` }}
+					/>
+				</div>
+			))}
+
+			<h4 style={{ fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em", color: "#888", margin: "1.5rem 0 0.75rem" }}>Bold</h4>
+
+			{boldMeasurements.map((m) => (
+				<div className="width-bar" key={`bold-${m.label}`}>
+					<div className="bar-label">
+						{m.label} — {m.width.toFixed(1)}px
+					</div>
+					<div
+						className={`bar ${m.isPrimary ? "primary" : "fallback"}`}
+						style={{ width: `${(m.width / boldMaxWidth) * 100}%` }}
 					/>
 				</div>
 			))}
