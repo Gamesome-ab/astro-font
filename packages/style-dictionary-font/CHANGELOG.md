@@ -1,6 +1,6 @@
-# @gamesome/astro-font
+# @gamesome/style-dictionary-font
 
-## 0.0.6
+## 0.0.2
 
 ### Patch Changes
 
@@ -10,9 +10,3 @@
 
 - Updated dependencies [9105d2d]
   - @gamesome/core-font@0.0.2
-
-## 0.0.5
-
-### Patch Changes
-
-- Extract core logic into @gamesome/core-font, upgrade @capsizecss/core to 4.x, and fix fallback font name mismatches.
