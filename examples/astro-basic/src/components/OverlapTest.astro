@@ -17,23 +17,44 @@ const { primaryFont, primaryLabel, fallbackFonts, sampleText } = Astro.props;
 		CLS on swap.
 	</p>
 	{fallbackFonts.map((fallback) => (
-		<div
-			style="position: relative; height: 4.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid #eee;"
-		>
+		<div>
 			<div
-				style={`position: absolute; top: 0; left: 0; font-family: ${primaryFont}; font-size: 3rem; line-height: 1; color: rgba(52, 152, 219, 0.5); white-space: nowrap;`}
+				style="position: relative; height: 4.5rem; margin-bottom: 0.5rem; border-bottom: 1px solid #eee;"
 			>
-				{sampleText}
+				<div
+					style={`position: absolute; top: 0; left: 0; font-family: ${primaryFont}; font-size: 3rem; line-height: 1; color: rgba(52, 152, 219, 0.5); white-space: nowrap;`}
+				>
+					{sampleText}
+				</div>
+				<div
+					style={`position: absolute; top: 0; left: 0; font-family: '${primaryLabel} Fallback: ${fallback}'; font-size: 3rem; line-height: 1; color: rgba(231, 76, 60, 0.5); white-space: nowrap;`}
+				>
+					{sampleText}
+				</div>
+				<div
+					style="position: absolute; right: 0; bottom: 0.25rem; font-size: 0.65rem; font-family: monospace; color: #999;"
+				>
+					{primaryLabel} vs {fallback} (regular)
+				</div>
 			</div>
 			<div
-				style={`position: absolute; top: 0; left: 0; font-family: '${primaryLabel} Fallback: ${fallback}'; font-size: 3rem; line-height: 1; color: rgba(231, 76, 60, 0.5); white-space: nowrap;`}
+				style="position: relative; height: 4.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid #eee;"
 			>
-				{sampleText}
-			</div>
-			<div
-				style="position: absolute; right: 0; bottom: 0.25rem; font-size: 0.65rem; font-family: monospace; color: #999;"
-			>
-				{primaryLabel} vs {fallback}
+				<div
+					style={`position: absolute; top: 0; left: 0; font-family: ${primaryFont}; font-size: 3rem; line-height: 1; font-weight: 700; color: rgba(52, 152, 219, 0.5); white-space: nowrap;`}
+				>
+					{sampleText}
+				</div>
+				<div
+					style={`position: absolute; top: 0; left: 0; font-family: '${primaryLabel} Fallback: ${fallback}'; font-size: 3rem; line-height: 1; font-weight: 700; color: rgba(231, 76, 60, 0.5); white-space: nowrap;`}
+				>
+					{sampleText}
+				</div>
+				<div
+					style="position: absolute; right: 0; bottom: 0.25rem; font-size: 0.65rem; font-family: monospace; color: #999;"
+				>
+					{primaryLabel} vs {fallback} (bold)
+				</div>
 			</div>
 		</div>
 	))}

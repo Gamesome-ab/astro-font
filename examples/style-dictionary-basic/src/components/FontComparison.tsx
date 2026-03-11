@@ -21,6 +21,9 @@ export function FontComparison({
 						<div className="sample" style={{ fontFamily: primaryFont }}>
 							{sampleText}
 						</div>
+						<div className="sample" style={{ fontFamily: primaryFont, fontWeight: 700 }}>
+							{sampleText}
+						</div>
 						<div className="details">font-family: {primaryFont}</div>
 					</div>
 					<div className="font-panel">
@@ -29,6 +32,15 @@ export function FontComparison({
 							className="sample"
 							style={{
 								fontFamily: `"${primaryLabel} Fallback: ${fallback}"`,
+							}}
+						>
+							{sampleText}
+						</div>
+						<div
+							className="sample"
+							style={{
+								fontFamily: `"${primaryLabel} Fallback: ${fallback}"`,
+								fontWeight: 700,
 							}}
 						>
 							{sampleText}

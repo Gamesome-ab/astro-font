@@ -29,7 +29,7 @@ export const createBoldFallbackFontFace = (
 			if (fallback.bold.scaling) {
 				relevantFontFaceBlock = updatePropsInFontFace(
 					relevantFontFaceBlock,
-					fallback.bold.scaling as Record<string, string>
+					fallback.bold.scaling
 				);
 			}
 			fallbackFontFaceDeclarations.push(relevantFontFaceBlock);

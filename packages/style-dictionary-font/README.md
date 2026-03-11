@@ -175,7 +175,11 @@ If not set, defaults are chosen based on `fontType`:
 
 Set to `false` to disable fallback fonts entirely. You might do this if you preload all your font files and don't care about the flash of unstyled text.
 
-Each fallback font also gets a **bold variant** (e.g. "Arial Bold" at weight 700). This is important because bold text is wider than regular text — without a scaled bold fallback, bold sections will reflow when the web font loads, causing CLS. Faux bold on fallback fonts does not work reliably across browsers.
+Each fallback font also gets a **bold variant** (e.g. "Arial Bold" at weight 700) with its own weight-specific override values calculated from Capsize's variant metrics when that exact weight exists in Capsize's data. This is important because bold text is wider than regular text — without a scaled bold fallback, bold sections will reflow when the web font loads, causing CLS. Faux bold on fallback fonts does not work reliably across browsers.
+
+If you configure a custom bold weight that Capsize does not expose metrics for, the build will fail with instructions to use `bold.scaling`, change the weight to `700`, or disable that bold fallback.
+
+For some font pairings (especially serif fonts), the automatic bold calculation may produce visible misalignment due to inherent limitations of the CSS `size-adjust` descriptor. See [Limitations in @gamesome/core-font](../core-font/README.md#limitations) for details and workarounds.
 
 ### `appendFontFamilies`
 
@@ -254,8 +258,8 @@ Set each font category you use to an empty array. This prevents Tailwind from ov
 
 The formatter accepts the following options via `options` in your Style Dictionary file config:
 
-| Option | Type | Description |
-|--------|------|-------------|
+| Option           | Type      | Description                                                       |
+| ---------------- | --------- | ----------------------------------------------------------------- |
 | `prettifyOutput` | `boolean` | Prettifies the CSS output. Useful for debugging. Default: `false` |
 
 ## Preloading fonts
@@ -330,6 +334,7 @@ The generated CSS uses fontsource package paths in `url()` functions (e.g. `url(
 
 These tools can help you compare fonts and fine-tune fallback scaling:
 
+- **Perfect-ish Font Fallback:** https://www.industrialempathy.com/perfect-ish-font-fallback/ — visually compare a web font against system fallbacks and preview override values. Useful for choosing which fallback font pairs best with your web font.
 - **Font overlay bookmarklet:** https://lucaslarson.github.io/fallback/ — overlay a different font on your page to compare
 - **Web-safe fonts reference:** https://www.w3schools.com/cssref/css_websafe_fonts.php — check which fonts are available across platforms
 - **Font style matcher:** https://meowni.ca/font-style-matcher/ — visually compare two fonts side by side
