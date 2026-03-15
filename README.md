@@ -4,18 +4,18 @@ A monorepo for font optimization packages that generate `@font-face` CSS with sc
 
 ## Packages
 
-| Package | Description |
-|---------|-------------|
-| [@gamesome/astro-font](packages/astro-font/) | Astro integration for optimized font loading with preloading and locale support |
-| [@gamesome/style-dictionary-font](packages/style-dictionary-font/) | Style Dictionary v4 format and action for generating font CSS from design tokens |
-| [@gamesome/core-font](packages/core-font/) | Shared core logic for CSS generation and fallback font scaling (used by the above) |
+| Package                                                            | Description                                                                        |
+| ------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
+| [@gamesome/astro-font](packages/astro-font/)                       | Astro integration for optimized font loading with preloading and locale support    |
+| [@gamesome/style-dictionary-font](packages/style-dictionary-font/) | Style Dictionary v4 format and action for generating font CSS from design tokens   |
+| [@gamesome/core-font](packages/core-font/)                         | Shared core logic for CSS generation and fallback font scaling (used by the above) |
 
 ## Examples
 
-| Example | Description |
-|---------|-------------|
-| [astro-basic](examples/astro-basic/) | Astro app showcasing three fonts (Rubik, Sora, Lora) with the astro-font integration |
-| [style-dictionary-basic](examples/style-dictionary-basic/) | React + Vite app using Style Dictionary tokens for the same three fonts |
+| Example                                                    | Description                                                                          |
+| ---------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| [astro-basic](examples/astro-basic/)                       | Astro app showcasing three fonts (Rubik, Sora, Lora) with the astro-font integration |
+| [style-dictionary-basic](examples/style-dictionary-basic/) | React + Vite app using Style Dictionary tokens for the same three fonts              |
 
 ## Development
 
@@ -63,6 +63,8 @@ This prompts you to:
 3. Write a summary of the change
 
 A markdown file is created in `.changeset/` — **commit this file with your PR**. You can add multiple changesets per PR if there are unrelated changes.
+
+Make sure to either squash changes, or add this changeset in the same commit as your code changes. `version-packages` will reference the commit that the changeset file is in!
 
 #### Example
 
@@ -123,11 +125,11 @@ This runs `build → test → changeset publish`. Changeset publish will:
 
 ### Quick reference
 
-| Command | What it does |
-|---------|-------------|
-| `pnpm changeset` | Add a changeset (do this in your PR) |
-| `pnpm version-packages` | Bump versions + generate changelogs |
-| `pnpm release` | Build, test, publish to npm, create git tags |
+| Command                 | What it does                                 |
+| ----------------------- | -------------------------------------------- |
+| `pnpm changeset`        | Add a changeset (do this in your PR)         |
+| `pnpm version-packages` | Bump versions + generate changelogs          |
+| `pnpm release`          | Build, test, publish to npm, create git tags |
 
 ### Tips
 
