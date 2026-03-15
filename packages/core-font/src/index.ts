@@ -5,6 +5,7 @@ export type {
 	FontScaling,
 	FallbackFont,
 	ApplyFontFamilyToSelector,
+	ParsedApplyFontFamilyToSelector,
 	FontFamily,
 	FontOptions,
 	ParsedFallbackFont,

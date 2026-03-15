@@ -1,6 +1,7 @@
 import { styleNameFromCssImport } from "./utils/importExportNames";
 
 import type {
+	ParsedApplyFontFamilyToSelector,
 	ParsedFallbackFont,
 	ParsedFontFamily,
 	ParsedFontImport,
@@ -247,7 +248,7 @@ export const _parsedAppendFontFamilies = (
 export const _parsedSelector = (
 	selector: FontFamily["applyFontFamilyToSelector"],
 	first: boolean
-) => {
+): ParsedApplyFontFamilyToSelector | false => {
 	const validCssVariableName = (value: unknown): value is string => {
 		return (
 			typeof value === "string" && /^--[A-Za-z_][A-Za-z0-9_-]*$/.test(value)
@@ -255,9 +256,9 @@ export const _parsedSelector = (
 	};
 
 	if (typeof selector === "undefined" && first) {
-		return "html";
+		return { selector: "html" };
 	} else if (typeof selector === "string") {
-		return selector;
+		return { selector };
 	} else if (selector === false) {
 		return false;
 	} else if (
@@ -272,7 +273,14 @@ export const _parsedSelector = (
 		(typeof selector.selector === "string" ||
 			validCssVariableName(selector.cssVariable))
 	) {
-		return selector;
+		const parsedSelector = {} as ParsedApplyFontFamilyToSelector;
+		if (typeof selector.selector === "string") {
+			parsedSelector.selector = selector.selector;
+		}
+		if (selector.cssVariable) {
+			parsedSelector.cssVariable = selector.cssVariable;
+		}
+		return parsedSelector;
 	} else {
 		throw new Error(
 			`@gamesome/core-font encountered a font family with an invalid applyFontFamilyToSelector (should be string, false or { selector?: string | false; cssVariable?: valid CSS custom property name }. undefined is allowed only for the first family, and object configs must emit either a selector or cssVariable). ${JSON.stringify(

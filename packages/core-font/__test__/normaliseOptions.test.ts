@@ -330,12 +330,12 @@ describe("_parsedAppendFontFamilies", () => {
 describe("_parsedSelector", () => {
 	it("should return 'html' if selector is undefined", () => {
 		const result = _parsedSelector(undefined, true);
-		assert.equal(result, "html");
+		assert.deepEqual(result, { selector: "html" });
 	});
 
 	it("should return the selector string if selector is a string", () => {
 		const result = _parsedSelector(".my-selector", true);
-		assert.equal(result, ".my-selector");
+		assert.deepEqual(result, { selector: ".my-selector" });
 	});
 
 	it("should return false if selector is false", () => {

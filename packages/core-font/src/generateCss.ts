@@ -228,14 +228,11 @@ export const generateCss = async (
 				quoteIfNeeded(family.staticFontName),
 				quoteIfNeeded(family.name)
 			);
-			const applyConfig =
-				typeof family.applyFontFamilyToSelector === "string"
-					? { selector: family.applyFontFamilyToSelector }
-					: family.applyFontFamilyToSelector;
+			const applyConfig = family.applyFontFamilyToSelector;
 			// We add !important to the font-family declaration to make sure it overrides any other font-family declarations. For example from tailwind.
 			const importantSelectors = ["html", ".font-serif", ".font-sans"];
 			const isImportantSelector = importantSelectors.includes(
-				typeof applyConfig.selector === "string" ? applyConfig.selector : ""
+				applyConfig.selector || ""
 			);
 			const selectorFfSuffix = isImportantSelector ? " !important" : "";
 
@@ -247,7 +244,7 @@ export const generateCss = async (
 				`);
 			}
 
-			if (applyConfig.selector && typeof applyConfig.selector === "string") {
+			if (applyConfig.selector) {
 				allFontFamilyDeclarations.push(`
 					${applyConfig.selector} {
 						font-family: ${
