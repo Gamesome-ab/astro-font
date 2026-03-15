@@ -252,9 +252,11 @@ export const generateCss = async (
 			`;
 		})
 		.join("\n")}
-		${Object.values(fontFaceDeclarations).map((entry) => {
-			return Object.values(entry).join("\n");
-		})}
+		${Object.values(fontFaceDeclarations)
+			.map((entry) => {
+				return Object.values(entry).join("\n");
+			})
+			.join("\n")}
 		${allFallbackFontFaceDeclarations.join("\n")}
 		`;
 
