@@ -1,6 +1,6 @@
 {
 	"name": "@gamesome/core-font",
-	"version": "0.0.2",
+	"version": "0.1.0",
 	"description": "Core font optimization logic for generating @font-face CSS with fallback scaling",
 	"main": "./dist/core-font.js",
 	"module": "./dist/core-font.mjs",

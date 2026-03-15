@@ -1,6 +1,6 @@
 {
 	"name": "@gamesome/style-dictionary-font",
-	"version": "0.0.2",
+	"version": "0.1.0",
 	"description": "Style Dictionary format and action for generating optimized @font-face CSS with fallback scaling",
 	"type": "module",
 	"main": "./dist/style-dictionary-font.cjs.js",
