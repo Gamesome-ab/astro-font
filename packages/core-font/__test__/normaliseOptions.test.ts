@@ -6,7 +6,9 @@ import {
 	_parsedFontImport,
 	_parsedPreloads,
 	_parsedSelector,
+	parsedFamilies,
 } from "../src/normaliseOptions";
+import type { FontFamily } from "../src/types";
 
 describe("_parsedPreloads", () => {
 	it("should return default preloads if preloads is undefined and firstFontFile is true", () => {
@@ -352,6 +354,28 @@ describe("_parsedSelector", () => {
 		assert.throws(
 			() => _parsedSelector(undefined, false),
 			/@gamesome\/core-font encounterd a font family with an invalid applyFontFamilyToSelector/
+		);
+	});
+});
+
+describe("parsedFamilies", () => {
+	it("should throw if a later font family omits applyFontFamilyToSelector", () => {
+		const families: FontFamily[] = [
+			{
+				name: "Rubik Variable",
+				type: "sans-serif",
+				imports: ["@fontsource-variable/rubik/wght.css"],
+			},
+			{
+				name: "DM Sans Variable",
+				type: "sans-serif",
+				imports: ["@fontsource-variable/dm-sans/wght.css"],
+			},
+		];
+
+		assert.throws(
+			() => parsedFamilies(families),
+			/@gamesome\/core-font: you must specify applyFontFamilyToSelector for every font family after the first\./
 		);
 	});
 });
