@@ -66,6 +66,17 @@ export interface FallbackFont {
 	scaling?: FontScaling | false;
 }
 
+export interface ApplyFontFamilyToSelector {
+	/**
+	 * CSS selector to apply the generated font-family to.
+	 */
+	selector?: string | false;
+	/**
+	 * CSS custom property name to define the generated font-family stack as on :root.
+	 */
+	cssVariable?: string;
+}
+
 export interface FontFamily {
 	/**
 	 * Name is the font name of the primary font. It is important that this matches the name in
@@ -124,15 +135,15 @@ export interface FontFamily {
 	appendFontFamilies?: string | false;
 
 	/**
-	 * This plugin will set the generated font-family on the class / element of your choice. This is done in one of the initial style tags
-	 * on each page. If you supply several families to this plugin, you need to set this on all but the first of your families.
+	 * This plugin will set the generated font-family on the class / element of your choice, and/or expose the full generated stack as a CSS custom property.
+	 * This is done in one of the initial style tags on each page. If you supply several families to this plugin, you need to set this on all but the first of your families.
 	 *
 	 * Sidenote: don't forget to prevent tailwind from setting font-family if you are using tailwind. (see readme)
 	 *
 	 * set this to false if you prefer to do this elsewhere (perhaps in a tailwind config of similar).
 	 * @example ".font-serif"
 	 */
-	applyFontFamilyToSelector?: string | false;
+	applyFontFamilyToSelector?: string | false | ApplyFontFamilyToSelector;
 }
 
 export interface FontOptions {

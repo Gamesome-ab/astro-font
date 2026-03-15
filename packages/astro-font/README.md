@@ -281,11 +281,13 @@ you probably need to move emojis into that list as well.
 
 #### `applyFontFamilyToSelector`
 
-A string, representing a CSS selector to apply the font family to. This is only needed for the second and subsequent font families, or to override the default behaviour of the first font family. The first font family will be applied to the `html` element by default.
+A string, or an object with `selector` and/or `cssVariable`, used to expose the generated font-family stack. This is only needed for the second and subsequent font families, or to override the default behaviour of the first font family. The first font family will be applied to the `html` element by default.
 
 We will create the CSS before the font-face declarations in the `<head>` element.
 
 Set this to `false` if you apply your font-families in another way, for example through Tailwind. However, for Tailwind specifically, see [How do I set this up together with tailwindcss?](#how-do-i-set-this-up-together-with-tailwindcss) for more information.
+
+If you pass `{ cssVariable: "--font-heading" }`, the full generated font stack will be written to `:root` as `--font-heading`. If you pass both `selector` and `cssVariable`, the selector rule will use `font-family: var(--font-heading)`.
 
 ### `FontImport`
 

@@ -31,8 +31,7 @@ export const generateCss = async (
 		);
 	}
 
-	const allFontFamilyDeclarations: { selector: string; fontFamily: string }[] =
-		[];
+	const allFontFamilyDeclarations: string[] = [];
 	const allFallbackFontFaceDeclarations: string[] = [];
 	const allPreloads: string[] = [];
 
@@ -229,29 +228,40 @@ export const generateCss = async (
 				quoteIfNeeded(family.staticFontName),
 				quoteIfNeeded(family.name)
 			);
+			const applyConfig =
+				typeof family.applyFontFamilyToSelector === "string"
+					? { selector: family.applyFontFamilyToSelector }
+					: family.applyFontFamilyToSelector;
 			// We add !important to the font-family declaration to make sure it overrides any other font-family declarations. For example from tailwind.
 			const importantSelectors = ["html", ".font-serif", ".font-sans"];
-			const ffSuffix = importantSelectors.includes(
-				family.applyFontFamilyToSelector
-			)
-				? " !important"
-				: "";
-			allFontFamilyDeclarations.push({
-				selector: family.applyFontFamilyToSelector,
-				fontFamily: `${ff}${ffSuffix}`,
-			});
+			const isImportantSelector = importantSelectors.includes(
+				typeof applyConfig.selector === "string" ? applyConfig.selector : ""
+			);
+			const selectorFfSuffix = isImportantSelector ? " !important" : "";
+
+			if (applyConfig.cssVariable) {
+				allFontFamilyDeclarations.push(`
+					:root {
+						${applyConfig.cssVariable}: ${ff};
+					}
+				`);
+			}
+
+			if (applyConfig.selector && typeof applyConfig.selector === "string") {
+				allFontFamilyDeclarations.push(`
+					${applyConfig.selector} {
+						font-family: ${
+							applyConfig.cssVariable
+								? `var(${applyConfig.cssVariable})${selectorFfSuffix}`
+								: `${ff}${selectorFfSuffix}`
+						};
+					}
+				`);
+			}
 		}
 	}
 
-	const css = `${allFontFamilyDeclarations
-		.map((declaration) => {
-			return `
-				${declaration.selector} {
-  				font-family: ${declaration.fontFamily};
-				}
-			`;
-		})
-		.join("\n")}
+	const css = `${allFontFamilyDeclarations.join("\n")}
 		${Object.values(fontFaceDeclarations)
 			.map((entry) => {
 				return Object.values(entry).join("\n");

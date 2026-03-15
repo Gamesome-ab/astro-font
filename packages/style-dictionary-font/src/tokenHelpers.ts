@@ -1,4 +1,8 @@
-import type { FontFamily, FontImport } from "@gamesome/core-font";
+import type {
+	ApplyFontFamilyToSelector,
+	FontFamily,
+	FontImport,
+} from "@gamesome/core-font";
 
 interface GamesomeFontExtension {
 	/** The static font name for capsize metrics lookup (defaults to name without "Variable") */
@@ -11,8 +15,8 @@ interface GamesomeFontExtension {
 	fallbacks?: (string | { name: string; scaling?: object | false; bold?: object | false })[] | false;
 	/** Font families to append after primary + fallbacks */
 	appendFontFamilies?: string | false;
-	/** CSS selector to apply font-family to */
-	applyFontFamilyToSelector?: string | false;
+	/** CSS selector and/or custom property for the generated font-family */
+	applyFontFamilyToSelector?: string | false | ApplyFontFamilyToSelector;
 }
 
 /**

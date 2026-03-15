@@ -343,17 +343,72 @@ describe("_parsedSelector", () => {
 		assert.equal(result, false);
 	});
 
-	it("should throw an error if selector is not a string, undefined, or false", () => {
+	it("should return the selector config object if selector is an object", () => {
+		const result = _parsedSelector(
+			{
+				selector: ".font-heading",
+				cssVariable: "--font-heading",
+			},
+			true
+		);
+		assert.deepEqual(result, {
+			selector: ".font-heading",
+			cssVariable: "--font-heading",
+		});
+	});
+
+	it("should allow a cssVariable-only selector config for non-first families", () => {
+		const result = _parsedSelector(
+			{
+				cssVariable: "--font-heading",
+			},
+			false
+		);
+		assert.deepEqual(result, {
+			cssVariable: "--font-heading",
+		});
+	});
+
+	it("should throw an error if selector is not a string, object, undefined, or false", () => {
 		assert.throws(
 			() => _parsedSelector(123 as any, true),
-			/@gamesome\/core-font encounterd a font family with an invalid applyFontFamilyToSelector/
+			/@gamesome\/core-font encountered a font family with an invalid applyFontFamilyToSelector/
+		);
+	});
+
+	it("should throw an error if selector object has invalid fields", () => {
+		assert.throws(
+			() =>
+				_parsedSelector(
+					{ selector: 123, cssVariable: "--font-heading" } as any,
+					true
+				),
+			/@gamesome\/core-font encountered a font family with an invalid applyFontFamilyToSelector/
+		);
+	});
+
+	it("should throw an error if selector object would emit no css", () => {
+		assert.throws(
+			() => _parsedSelector({}, false),
+			/@gamesome\/core-font encountered a font family with an invalid applyFontFamilyToSelector/
+		);
+	});
+
+	it("should throw an error if cssVariable is not a valid custom property name", () => {
+		assert.throws(
+			() =>
+				_parsedSelector(
+					{ cssVariable: "--foo: red } .evil { color: red" } as any,
+					false
+				),
+			/@gamesome\/core-font encountered a font family with an invalid applyFontFamilyToSelector/
 		);
 	});
 
 	it("should throw an error if selector is undefined and first is false", () => {
 		assert.throws(
 			() => _parsedSelector(undefined, false),
-			/@gamesome\/core-font encounterd a font family with an invalid applyFontFamilyToSelector/
+			/@gamesome\/core-font encountered a font family with an invalid applyFontFamilyToSelector/
 		);
 	});
 });

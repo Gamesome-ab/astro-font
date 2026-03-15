@@ -197,13 +197,17 @@ Pass a custom string to override, or `false` to disable entirely.
 
 ### `applyFontFamilyToSelector`
 
-Type: `string | false` (optional)
+Type: `string | false | { selector?: string | false; cssVariable?: string }` (optional)
 
-A CSS selector where the generated `font-family` will be applied. The first font family is applied to `html` by default. The second and subsequent families **must** specify a selector.
+A CSS selector where the generated `font-family` will be applied, and/or a CSS custom property that will be defined on `:root` with the full generated font stack. The first font family is applied to `html` by default. The second and subsequent families **must** specify `applyFontFamilyToSelector`, but that can now be either a selector string or an object with a `cssVariable`.
 
 Set to `false` if you apply font families elsewhere (e.g. in your Tailwind config or custom CSS).
 
-**Example:** `".font-serif"`
+**Examples:**
+
+- `".font-serif"`
+- `{ "cssVariable": "--font-serif" }`
+- `{ "selector": ".font-serif", "cssVariable": "--font-serif" }`
 
 ## Adding multiple fonts
 

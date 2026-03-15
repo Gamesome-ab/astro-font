@@ -239,6 +239,62 @@ describe("generateCss", () => {
 		expect(result.css).not.toContain(".font-sans{font-family:");
 	});
 
+	it("should support selector configs that emit a css variable and reuse it", async () => {
+		const families = parsedFamilies([
+			{
+				name: "DM Sans Variable",
+				type: "sans-serif",
+				imports: ["@fontsource-variable/dm-sans/wght.css"],
+				applyFontFamilyToSelector: {
+					selector: ".font-sans",
+					cssVariable: "--font-family-sans",
+				},
+			},
+		]);
+
+		const result = await generateCss({
+			families,
+			fontFaceDeclarations: {
+				dm_sans_variable: dmSansVariable,
+			},
+		});
+
+		expectLightningCssToProcess(result.css);
+		expect(result.css).toContain(
+			':root{--font-family-sans:"DM Sans Variable","DM Sans Variable Fallback: Helvetica","DM Sans Variable Fallback: Helvetica Neue","DM Sans Variable Fallback: Arial",ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"}'
+		);
+		expect(result.css).toContain(
+			".font-sans{font-family:var(--font-family-sans)!important}"
+		);
+	});
+
+	it("should support selector configs that only emit a css variable", async () => {
+		const families = parsedFamilies([
+			{
+				name: "DM Sans Variable",
+				type: "sans-serif",
+				imports: ["@fontsource-variable/dm-sans/wght.css"],
+				applyFontFamilyToSelector: {
+					cssVariable: "--font-family-sans",
+				},
+			},
+		]);
+
+		const result = await generateCss({
+			families,
+			fontFaceDeclarations: {
+				dm_sans_variable: dmSansVariable,
+			},
+		});
+
+		expectLightningCssToProcess(result.css);
+		expect(result.css).toContain(
+			':root{--font-family-sans:"DM Sans Variable","DM Sans Variable Fallback: Helvetica","DM Sans Variable Fallback: Helvetica Neue","DM Sans Variable Fallback: Arial",ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"}'
+		);
+		expect(result.css).not.toContain("html{font-family:");
+		expect(result.css).not.toContain("font-family:var(--font-family-sans)");
+	});
+
 	it("should use supported custom bold weights when Capsize exposes that variant", async () => {
 		const families = parsedFamilies([
 			{

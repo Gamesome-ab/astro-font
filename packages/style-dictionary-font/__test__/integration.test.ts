@@ -2,12 +2,21 @@ import { describe, it, expect } from "vitest";
 import StyleDictionary from "style-dictionary";
 import fs from "fs";
 import path from "path";
-import { gamesomeFontFaceFormat, buildFontFaceDeclarations } from "../src/format";
+import {
+	gamesomeFontFaceFormat,
+	buildFontFaceDeclarations,
+} from "../src/format";
 import type { PreloadManifestEntry } from "../src/types";
 
 // Read the rubik fixture CSS from core-font's test fixtures
-const fixturesDir = path.join(__dirname, "../../core-font/__test__/fixtures/rubik");
-const rubikWghtCss = fs.readFileSync(path.join(fixturesDir, "wght.css"), "utf-8");
+const fixturesDir = path.join(
+	__dirname,
+	"../../core-font/__test__/fixtures/rubik"
+);
+const rubikWghtCss = fs.readFileSync(
+	path.join(fixturesDir, "wght.css"),
+	"utf-8"
+);
 
 const cssContents: Record<string, string> = {
 	"@fontsource-variable/rubik/wght.css": rubikWghtCss,
@@ -59,8 +68,13 @@ describe("style-dictionary integration", () => {
 		StyleDictionary.registerFormat(gamesomeFontFaceFormat);
 
 		const fontFaceDeclarations = buildFontFaceDeclarations(
-			[{ name: "Rubik Variable", imports: ["@fontsource-variable/rubik/wght.css"] }],
-			cssContents,
+			[
+				{
+					name: "Rubik Variable",
+					imports: ["@fontsource-variable/rubik/wght.css"],
+				},
+			],
+			cssContents
 		);
 
 		const tmpDir = path.join(__dirname, ".tmp");
@@ -69,7 +83,10 @@ describe("style-dictionary integration", () => {
 		const sd = buildSD(tmpDir, { fontFaceDeclarations, prettifyOutput: false });
 		await sd.buildAllPlatforms();
 
-		const outputCss = fs.readFileSync(path.join(tmpDir, "build/fonts.css"), "utf-8");
+		const outputCss = fs.readFileSync(
+			path.join(tmpDir, "build/fonts.css"),
+			"utf-8"
+		);
 
 		expect(outputCss).not.toContain("undefined");
 		expect(outputCss).toContain("font-family:");
@@ -90,8 +107,13 @@ describe("style-dictionary integration", () => {
 		StyleDictionary.registerFormat(gamesomeFontFaceFormat);
 
 		const fontFaceDeclarations = buildFontFaceDeclarations(
-			[{ name: "Rubik Variable", imports: ["@fontsource-variable/rubik/wght.css"] }],
-			cssContents,
+			[
+				{
+					name: "Rubik Variable",
+					imports: ["@fontsource-variable/rubik/wght.css"],
+				},
+			],
+			cssContents
 		);
 
 		const tmpDir = path.join(__dirname, ".tmp-beautify");
@@ -100,7 +122,10 @@ describe("style-dictionary integration", () => {
 		const sd = buildSD(tmpDir, { fontFaceDeclarations, prettifyOutput: true });
 		await sd.buildAllPlatforms();
 
-		const outputCss = fs.readFileSync(path.join(tmpDir, "build/fonts.css"), "utf-8");
+		const outputCss = fs.readFileSync(
+			path.join(tmpDir, "build/fonts.css"),
+			"utf-8"
+		);
 
 		expect(outputCss).not.toContain("undefined");
 		expect(outputCss).toContain("\n");
@@ -114,8 +139,13 @@ describe("style-dictionary integration", () => {
 		StyleDictionary.registerFormat(gamesomeFontFaceFormat);
 
 		const fontFaceDeclarations = buildFontFaceDeclarations(
-			[{ name: "Rubik Variable", imports: ["@fontsource-variable/rubik/wght.css"] }],
-			cssContents,
+			[
+				{
+					name: "Rubik Variable",
+					imports: ["@fontsource-variable/rubik/wght.css"],
+				},
+			],
+			cssContents
 		);
 
 		const tmpDir = path.join(__dirname, ".tmp-quoted");
@@ -124,7 +154,10 @@ describe("style-dictionary integration", () => {
 		const sd = buildSD(tmpDir, { fontFaceDeclarations });
 		await sd.buildAllPlatforms();
 
-		const outputCss = fs.readFileSync(path.join(tmpDir, "build/fonts.css"), "utf-8");
+		const outputCss = fs.readFileSync(
+			path.join(tmpDir, "build/fonts.css"),
+			"utf-8"
+		);
 
 		expect(outputCss).not.toContain("undefined");
 		expect(outputCss).toContain("Rubik Variable");
@@ -133,12 +166,70 @@ describe("style-dictionary integration", () => {
 		fs.rmSync(tmpDir, { recursive: true });
 	});
 
+	it("should generate css variables for object-based applyFontFamilyToSelector configs", async () => {
+		StyleDictionary.registerFormat(gamesomeFontFaceFormat);
+
+		const fontFaceDeclarations = buildFontFaceDeclarations(
+			[
+				{
+					name: "Rubik Variable",
+					imports: ["@fontsource-variable/rubik/wght.css"],
+				},
+			],
+			cssContents
+		);
+
+		const tmpDir = path.join(__dirname, ".tmp-css-variable");
+		writeTmpTokens(tmpDir, {
+			font: {
+				family: {
+					primary: {
+						value: "Rubik Variable",
+						type: "fontFamily",
+						$extensions: {
+							"gamesome.font": {
+								fontType: "sans-serif",
+								imports: ["@fontsource-variable/rubik/wght.css"],
+								applyFontFamilyToSelector: {
+									selector: ".font-sans",
+									cssVariable: "--font-sans",
+								},
+							},
+						},
+					},
+				},
+			},
+		});
+
+		const sd = buildSD(tmpDir, { fontFaceDeclarations });
+		await sd.buildAllPlatforms();
+
+		const outputCss = fs.readFileSync(
+			path.join(tmpDir, "build/fonts.css"),
+			"utf-8"
+		);
+
+		expect(outputCss).toContain(
+			':root{--font-sans:"Rubik Variable","Rubik Variable Fallback: Helvetica","Rubik Variable Fallback: Helvetica Neue","Rubik Variable Fallback: Arial",ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"}'
+		);
+		expect(outputCss).toContain(
+			".font-sans{font-family:var(--font-sans)!important}"
+		);
+
+		fs.rmSync(tmpDir, { recursive: true });
+	});
+
 	it("should write preload manifest with link tag attributes", async () => {
 		StyleDictionary.registerFormat(gamesomeFontFaceFormat);
 
 		const fontFaceDeclarations = buildFontFaceDeclarations(
-			[{ name: "Rubik Variable", imports: ["@fontsource-variable/rubik/wght.css"] }],
-			cssContents,
+			[
+				{
+					name: "Rubik Variable",
+					imports: ["@fontsource-variable/rubik/wght.css"],
+				},
+			],
+			cssContents
 		);
 
 		const tmpDir = path.join(__dirname, ".tmp-preloads");
@@ -152,7 +243,7 @@ describe("style-dictionary integration", () => {
 		expect(fs.existsSync(preloadsPath)).toBe(true);
 
 		const manifest: PreloadManifestEntry[] = JSON.parse(
-			fs.readFileSync(preloadsPath, "utf-8"),
+			fs.readFileSync(preloadsPath, "utf-8")
 		);
 		expect(manifest.length).toBeGreaterThan(0);
 
@@ -180,7 +271,10 @@ describe("style-dictionary integration", () => {
 		const sd = buildSD(tmpDir, {});
 		await sd.buildAllPlatforms();
 
-		const outputCss = fs.readFileSync(path.join(tmpDir, "build/fonts.css"), "utf-8");
+		const outputCss = fs.readFileSync(
+			path.join(tmpDir, "build/fonts.css"),
+			"utf-8"
+		);
 		expect(outputCss).toContain("No font tokens found");
 
 		fs.rmSync(tmpDir, { recursive: true });

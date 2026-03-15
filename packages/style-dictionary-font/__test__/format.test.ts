@@ -64,6 +64,34 @@ describe("extractFontFamiliesFromTokens", () => {
 		expect(families[1].applyFontFamilyToSelector).toBe(".font-serif");
 	});
 
+	it("should extract object-based applyFontFamilyToSelector configs", () => {
+		const tokens = {
+			font: {
+				family: {
+					primary: {
+						value: "Rubik Variable",
+						type: "fontFamily",
+						$extensions: {
+							"gamesome.font": {
+								imports: ["@fontsource-variable/rubik/wght.css"],
+								applyFontFamilyToSelector: {
+									selector: ".font-sans",
+									cssVariable: "--font-sans",
+								},
+							},
+						},
+					},
+				},
+			},
+		};
+
+		const families = extractFontFamiliesFromTokens(tokens);
+		expect(families[0].applyFontFamilyToSelector).toEqual({
+			selector: ".font-sans",
+			cssVariable: "--font-sans",
+		});
+	});
+
 	it("should return empty array when no gamesome.font tokens exist", () => {
 		const tokens = {
 			color: {
