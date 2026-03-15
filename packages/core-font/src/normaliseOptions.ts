@@ -248,15 +248,34 @@ export const _parsedSelector = (
 	selector: FontFamily["applyFontFamilyToSelector"],
 	first: boolean
 ) => {
+	const validCssVariableName = (value: unknown): value is string => {
+		return (
+			typeof value === "string" && /^--[A-Za-z_][A-Za-z0-9_-]*$/.test(value)
+		);
+	};
+
 	if (typeof selector === "undefined" && first) {
 		return "html";
 	} else if (typeof selector === "string") {
 		return selector;
 	} else if (selector === false) {
 		return false;
+	} else if (
+		selector &&
+		typeof selector === "object" &&
+		!Array.isArray(selector) &&
+		(typeof selector.selector === "undefined" ||
+			typeof selector.selector === "string" ||
+			selector.selector === false) &&
+		(typeof selector.cssVariable === "undefined" ||
+			validCssVariableName(selector.cssVariable)) &&
+		(typeof selector.selector === "string" ||
+			validCssVariableName(selector.cssVariable))
+	) {
+		return selector;
 	} else {
 		throw new Error(
-			`@gamesome/core-font encounterd a font family with an invalid applyFontFamilyToSelector (should be string or false. undefined is allowed only for the first family). ${JSON.stringify(
+			`@gamesome/core-font encountered a font family with an invalid applyFontFamilyToSelector (should be string, false or { selector?: string | false; cssVariable?: valid CSS custom property name }. undefined is allowed only for the first family, and object configs must emit either a selector or cssVariable). ${JSON.stringify(
 				selector
 			)}`
 		);
