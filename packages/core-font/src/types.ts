@@ -77,6 +77,11 @@ export interface ApplyFontFamilyToSelector {
 	cssVariable?: string;
 }
 
+export interface ParsedApplyFontFamilyToSelector {
+	selector?: string;
+	cssVariable?: string;
+}
+
 export interface FontFamily {
 	/**
 	 * Name is the font name of the primary font. It is important that this matches the name in
@@ -179,9 +184,10 @@ export interface ParsedFontImport extends FontImport {
 }
 
 export interface ParsedFontFamily
-	extends Omit<Required<FontFamily>, "fallbacks"> {
+	extends Omit<Required<FontFamily>, "fallbacks" | "applyFontFamilyToSelector"> {
 	imports: ParsedFontImport[];
 	fallbacks: ParsedFallbackFont[] | false;
+	applyFontFamilyToSelector: ParsedApplyFontFamilyToSelector | false;
 }
 
 //#endregion
