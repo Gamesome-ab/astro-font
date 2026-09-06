@@ -1,6 +1,6 @@
 # @gamesome/style-dictionary-font
 
-A [Style Dictionary](https://amzn.github.io/style-dictionary/) v4 formatter for generating optimized `@font-face` CSS with scaled fallback fonts to reduce [CLS](https://web.dev/articles/cls).
+A [Style Dictionary](https://amzn.github.io/style-dictionary/) v4 / v5 formatter for generating optimized `@font-face` CSS with scaled fallback fonts to reduce [CLS](https://web.dev/articles/cls).
 
 Works with [Fontsource](https://fontsource.org/) variable fonts. Fallback fonts are automatically scaled using [Capsize](https://seek-oss.github.io/capsize/) — the same algorithm used by `@next/font` (further reading [here](https://vercel.com/blog/nextjs-next-font)).
 
