@@ -1,5 +1,12 @@
 # @gamesome/style-dictionary-font
 
+## 0.1.1
+
+### Patch Changes
+
+- 6eaf12f: Support tokens in the DTCG format (`$value` / `$type`). Previously only the legacy `value` key was read, so DTCG token files produced an empty `fonts.css` and `preloads.json` with no error. Fixes #17.
+- 0cedbd2: Widen the `style-dictionary` peer dependency range to `^4.0.0 || ^5.0.0`. The format only relies on the v4 format hook signature, which is unchanged in v5, and the test suite passes against both majors. Fixes #18.
+
 ## 0.1.0
 
 ### Minor Changes
