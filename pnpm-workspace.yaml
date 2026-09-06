@@ -1,3 +1,9 @@
 packages:
   - "packages/*"
   - "examples/*"
+
+# Supply-chain guard: never resolve a package version published less than
+# 7 days ago (applies to transitive deps too). Frozen installs from the
+# lockfile are unaffected; this only gates new resolution, e.g. `pnpm add`
+# and the style-dictionary swap in CI.
+minimumReleaseAge: 10080
