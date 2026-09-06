@@ -92,6 +92,73 @@ describe("extractFontFamiliesFromTokens", () => {
 		});
 	});
 
+	it("should extract font families from DTCG tokens using $value", () => {
+		const tokens = {
+			font: {
+				family: {
+					primary: {
+						$value: "Rubik Variable",
+						$type: "fontFamily",
+						$extensions: {
+							"gamesome.font": {
+								fontType: "sans-serif",
+								imports: ["@fontsource-variable/rubik/wght.css"],
+							},
+						},
+					},
+					secondary: {
+						$value: "Georgia",
+						$type: "fontFamily",
+						$extensions: {
+							"gamesome.font": {
+								fontType: "serif",
+								imports: ["@fontsource/georgia/400.css"],
+							},
+						},
+					},
+				},
+			},
+		};
+
+		const families = extractFontFamiliesFromTokens(tokens);
+		expect(families).toHaveLength(2);
+		expect(families[0].name).toBe("Rubik Variable");
+		expect(families[0].type).toBe("sans-serif");
+		expect(families[0].imports).toEqual([
+			"@fontsource-variable/rubik/wght.css",
+		]);
+		expect(families[1].name).toBe("Georgia");
+		expect(families[1].type).toBe("serif");
+	});
+
+	it("should prefer original.$value over the transformed $value for DTCG tokens", () => {
+		// Mirrors what style-dictionary passes to a format after the css
+		// transform group has quoted the font family name.
+		const tokens = {
+			font: {
+				family: {
+					primary: {
+						$value: "'Rubik Variable'",
+						$type: "fontFamily",
+						original: {
+							$value: "Rubik Variable",
+							$type: "fontFamily",
+						},
+						$extensions: {
+							"gamesome.font": {
+								imports: ["@fontsource-variable/rubik/wght.css"],
+							},
+						},
+					},
+				},
+			},
+		};
+
+		const families = extractFontFamiliesFromTokens(tokens);
+		expect(families).toHaveLength(1);
+		expect(families[0].name).toBe("Rubik Variable");
+	});
+
 	it("should return empty array when no gamesome.font tokens exist", () => {
 		const tokens = {
 			color: {

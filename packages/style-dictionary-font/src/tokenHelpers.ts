@@ -42,6 +42,9 @@ interface GamesomeFontExtension {
  *   }
  * }
  * ```
+ *
+ * Both the legacy `value` / `type` keys and the DTCG `$value` / `$type` keys
+ * are supported. When a token uses `$value`, the DTCG form takes precedence.
  */
 export function extractFontFamiliesFromTokens(
 	tokens: Record<string, any>
@@ -57,15 +60,13 @@ function walkTokens(
 ): void {
 	if (!obj || typeof obj !== "object") return;
 
-	// Check if this is a token with gamesome.font extension
-	if (
-		obj.value &&
-		obj.$extensions &&
-		obj.$extensions["gamesome.font"]
-	) {
+	// Check if this is a token with gamesome.font extension.
+	// DTCG tokens use `$value`; legacy tokens use `value`.
+	const value = tokenValue(obj);
+	if (value && obj.$extensions && obj.$extensions["gamesome.font"]) {
 		const ext: GamesomeFontExtension = obj.$extensions["gamesome.font"];
-		// Use original.value when available (SD transforms may wrap the value in quotes)
-		const rawValue: string = obj.original?.value || obj.value;
+		// Use the original value when available (SD transforms may wrap the value in quotes)
+		const rawValue: string = tokenValue(obj.original) || value;
 		const name = rawValue.replace(/^['"]|['"]$/g, "");
 		const family: FontFamily = {
 			name,
@@ -95,4 +96,13 @@ function walkTokens(
 		if (key === "$extensions") continue;
 		walkTokens(obj[key], families);
 	}
+}
+
+/**
+ * Reads a token's value regardless of whether it uses the DTCG `$value` key
+ * or the legacy `value` key.
+ */
+function tokenValue(token: Record<string, any> | undefined): string | undefined {
+	if (!token || typeof token !== "object") return undefined;
+	return token.$value ?? token.value;
 }

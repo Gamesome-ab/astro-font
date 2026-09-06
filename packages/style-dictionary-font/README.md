@@ -51,6 +51,27 @@ Create a token file with `$extensions["gamesome.font"]` on your font family toke
 }
 ```
 
+Tokens in the [DTCG](https://tr.designtokens.org/format/) format (`$value` / `$type`) are supported too:
+
+```json
+{
+  "font": {
+    "family": {
+      "primary": {
+        "$value": "Rubik Variable",
+        "$type": "fontFamily",
+        "$extensions": {
+          "gamesome.font": {
+            "fontType": "sans-serif",
+            "imports": ["@fontsource-variable/rubik/wght.css"]
+          }
+        }
+      }
+    }
+  }
+}
+```
+
 #### Finding the right import paths
 
 To find which CSS files to import:
