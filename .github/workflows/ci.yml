@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    name: build + test (style-dictionary ${{ matrix.style-dictionary }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        style-dictionary: ["4", "5"]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 10
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Use style-dictionary ${{ matrix.style-dictionary }}
+        run: |
+          pnpm --filter @gamesome/style-dictionary-font add -D style-dictionary@${{ matrix.style-dictionary }}
+          v=$(node -p "require('./packages/style-dictionary-font/node_modules/style-dictionary/package.json').version")
+          echo "Testing against style-dictionary $v"
+      - run: pnpm build
+      - run: pnpm test
