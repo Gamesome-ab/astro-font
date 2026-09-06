@@ -16,3 +16,6 @@ examples/style-dictionary-basic/src/tokens/generated/
 !examples/style-dictionary-basic/src/tokens/generated/.gitkeep
 examples/style-dictionary-basic/build/
 examples/style-dictionary-basic/public/
+
+# style-dictionary-font integration test scratch dirs
+packages/style-dictionary-font/__test__/.tmp*

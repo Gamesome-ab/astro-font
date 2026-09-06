@@ -260,6 +260,60 @@ describe("style-dictionary integration", () => {
 		fs.rmSync(tmpDir, { recursive: true });
 	});
 
+	it("should generate CSS from DTCG tokens using $value", async () => {
+		StyleDictionary.registerFormat(gamesomeFontFaceFormat);
+
+		const fontFaceDeclarations = buildFontFaceDeclarations(
+			[
+				{
+					name: "Rubik Variable",
+					imports: ["@fontsource-variable/rubik/wght.css"],
+				},
+			],
+			cssContents
+		);
+
+		const tmpDir = path.join(__dirname, ".tmp-dtcg");
+		writeTmpTokens(tmpDir, {
+			font: {
+				family: {
+					primary: {
+						$value: "Rubik Variable",
+						$type: "fontFamily",
+						$extensions: {
+							"gamesome.font": {
+								fontType: "sans-serif",
+								imports: ["@fontsource-variable/rubik/wght.css"],
+							},
+						},
+					},
+				},
+			},
+		});
+
+		const sd = buildSD(tmpDir, { fontFaceDeclarations });
+		await sd.buildAllPlatforms();
+
+		const outputCss = fs.readFileSync(
+			path.join(tmpDir, "build/fonts.css"),
+			"utf-8"
+		);
+
+		expect(outputCss).not.toContain("No font tokens found");
+		expect(outputCss).not.toContain("undefined");
+		expect(outputCss).toContain("@font-face");
+		expect(outputCss).toContain("Rubik Variable Fallback");
+		// The css transform group quotes the DTCG $value; the original is used for the name
+		expect(outputCss).not.toContain("'Rubik Variable' Fallback");
+
+		const manifest: PreloadManifestEntry[] = JSON.parse(
+			fs.readFileSync(path.join(tmpDir, "build/preloads.json"), "utf-8")
+		);
+		expect(manifest.length).toBeGreaterThan(0);
+
+		fs.rmSync(tmpDir, { recursive: true });
+	});
+
 	it("should return a comment when no font tokens exist", async () => {
 		StyleDictionary.registerFormat(gamesomeFontFaceFormat);
 
